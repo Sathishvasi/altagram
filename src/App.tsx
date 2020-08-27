@@ -7,6 +7,7 @@ function App() {
     <div className="app">
       <div className="app__container">
         <Button>Hs</Button>
+        <Button type="secondary">Hs</Button>
       </div>
     </div>
   );

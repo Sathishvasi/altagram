@@ -7,7 +7,11 @@ interface ButtonProps {
 }
 
 function Button(props: ButtonProps) {
-  return <button className={props.type}>{props.children}</button>;
+  return (
+    <button className={props.type ? props.type : "primary"}>
+      {props.children}
+    </button>
+  );
 }
 
 export default Button;
