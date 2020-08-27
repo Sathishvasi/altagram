@@ -6,8 +6,10 @@ function App() {
   return (
     <div className="app">
       <div className="app__container">
-        <Button>Hs</Button>
-        <Button type="secondary">Hs</Button>
+        <Button type="secondary" className="mr-3">
+          Preview
+        </Button>
+        <Button>Download</Button>
       </div>
     </div>
   );
