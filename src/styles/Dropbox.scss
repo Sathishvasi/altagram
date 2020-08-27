@@ -1,0 +1,62 @@
+.dropbox-wrapper {
+    color: #f4f8f9;
+    height: 190px;
+    border: 1px dashed #adb5bd;
+    background: #212121 0% 0% no-repeat padding-box;
+    border-radius: 4px;
+    .fileinput {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+    label {
+        width: 100%;
+    }
+    .upload-container {
+        color: #f4f8f9;
+        padding: 30px 0 25px 0;
+        text-align: center;
+        cursor: pointer;
+        img {
+            margin-bottom: 30px;
+        }
+        h6 {
+            font-weight: normal;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 14px;
+            margin: 0;
+        }
+    }
+    .file-info {
+        margin: 9px;
+        padding: 10px 14px 14px 14px;
+        border: 1px solid #ced4da;
+        width: calc(100% - 18px);
+        background: #323232 0% 0% no-repeat padding-box;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p {
+            margin: 0;
+        }
+        &__name {
+            color: #f4f8f9;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        &__date {
+            font-size: 10px;
+        }
+        img {
+            width: auto;
+            height: 20px;
+            cursor: pointer;
+        }
+    }
+}
