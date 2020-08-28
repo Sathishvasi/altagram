@@ -16,7 +16,7 @@ class TranslateText extends React.Component<{}, State> {
   render() {
     return (
       <div>
-        <LanguageSelector></LanguageSelector>
+        <LanguageSelector/>
         <div className="text-inputs">
           <div className="column">
             <Textarea
