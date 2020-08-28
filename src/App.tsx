@@ -12,16 +12,16 @@ function App() {
       <div className="app__container">
         <BrowserRouter basename="/altagram/">
           <h2 className="title">Translate</h2>
-          <Navbar></Navbar>
+          <Navbar/>
           <div className="tabview">
             <Switch>
               <Route path="/translate/file">
-                <TranslateFile></TranslateFile>
+                <TranslateFile/>
               </Route>
               <Route path="/translate/text">
-                <TranslateText></TranslateText>
+                <TranslateText/>
               </Route>
-              <Redirect to="/translate/file"></Redirect>
+              <Redirect to="/translate/file"/>
             </Switch>
           </div>
         </BrowserRouter>

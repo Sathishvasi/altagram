@@ -1,49 +1,66 @@
-import React from "react";
-import "styles/Dropbox.scss";
-
-import { useState } from "react";
+import React, { constructor } from "react";
 import Button from "components/Button/Button";
 import Label from "components/Label/Label";
-import "styles/Dropbox.scss";
-
+import Snackbar from "components/Snackbar/Snackbar";
 import uploadIcon from "assets/icon-add-file.png";
 import trashIcon from "assets/icon-delete.png";
+import "styles/Dropbox.scss";
 
-function Dropbox() {
-  var dateObj = new Date();
-  const [state, setState] = useState({
+interface State {
+  showEnterMessage: Boolean;
+  uploadFailed: Boolean;
+  uploading: Boolean;
+  fileName: string;
+  snackbarMsg: string;
+  snackbarType: string;
+  modifiedDate: string;
+  onDrag: Boolean;
+  buttonNav: Boolean;
+  visibility: string
+}
+
+class Dropbox extends React.Component<{}, State> {
+  state: State = {
     showEnterMessage: true,
     uploadFailed: false,
     uploading: false,
-    fileName: null,
-    snackbarMsg: '',
-    snackbarType: '',
-    modifiedDate:
+    fileName: "",
+    snackbarMsg: "",
+    snackbarType: "",
+    modifiedDate: "",
+    onDrag: false,
+    buttonNav: true,
+    visibility: ""
+  };
+
+  componentDidMount() {
+    let dateObj = new Date();
+    let modifiedDate =
       dateObj.getDate() +
       "." +
       (dateObj.getMonth() + 1) +
       "." +
-      dateObj.getFullYear().toString().substr(2, 4),
-    onDrag: false,
-    buttonNav: true,
-  });
+      dateObj.getFullYear().toString().substr(2, 4);
+    this.setState({
+      modifiedDate: modifiedDate,
+    });
+  }
 
-  const showSnackbar = function (type: any, msg: any) {
-    setState({ ...state, snackbarMsg: msg, snackbarType: type });
+  showSnackbar = (visibility: string, type: string, msg: string) => {
+    this.setState({ snackbarMsg: msg, snackbarType: type, visibility: visibility });
     setTimeout(() => {
-      setState({ ...state, snackbarMsg: '', snackbarType: '' });
+      this.setState({ snackbarMsg: "", snackbarType: "", visibility: "" });
     }, 2000);
   };
 
-  const handleDragEnter = function (e: any) {
-    setState({ ...state, showEnterMessage: false, onDrag: true });
+  handleDragEnter = (e: any) => {
+    this.setState({ showEnterMessage: false, onDrag: true });
     e.preventDefault();
     e.stopPropagation();
   };
 
-  const handleDragLeave = function (e: any) {
-    setState({
-      ...state,
+  handleDragLeave = (e: any) => {
+    this.setState({
       showEnterMessage: true,
       onDrag: false,
     });
@@ -51,40 +68,35 @@ function Dropbox() {
     e.stopPropagation();
   };
 
-  const handleDragOver = function (e: any) {
-    setState({ ...state, showEnterMessage: false, onDrag: true });
+  handleDragOver = (e: any) => {
+    this.setState({ showEnterMessage: false, onDrag: true });
     e.preventDefault();
     e.stopPropagation();
   };
 
-  const handleDrop = function (e: any) {
+  handleDrop = (e: any) => {
     let fileName = e.dataTransfer && e.dataTransfer.files[0].name;
     if (fileName.split(".")[1] === "csv") {
-      setState({
-        ...state,
+      // Condition to show the CSV file info
+      this.setState({
         showEnterMessage: false,
         fileName: fileName,
         onDrag: false,
       });
     } else {
-      // showSnackbar("error show", "Supported file type: csv");
-      setState({
-        ...state,
+      // Condition to show the alert for Non-CSV file
+      this.setState({
         showEnterMessage: true,
         onDrag: false,
-        snackbarMsg: "Supported file type: csv",
-        snackbarType: "error show",
       });
-      
-      setTimeout(() => {
-        setState({ ...state, snackbarMsg: '', snackbarType: '', onDrag: false, showEnterMessage: true });
-      }, 2000);
+
+      this.showSnackbar("show","error", "Supported file type: csv");
     }
     e.preventDefault();
     e.stopPropagation();
   };
 
-  const readFile = function (event: any) {
+  readFile = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       /*Snippet to get file URL*/
       //let reader = new FileReader();
@@ -95,101 +107,106 @@ function Dropbox() {
 
       let fileInfo = event.target.files[0];
       console.log(fileInfo.name);
-      setState({ ...state, fileName: fileInfo.name, showEnterMessage: false });
+      this.setState({ fileName: fileInfo.name, showEnterMessage: false });
     }
   };
 
-  const translateFile = function () {
-    if (!state.showEnterMessage) {
-      setState({ ...state, buttonNav: false });
+  translateFile = () => {
+    if (!this.state.showEnterMessage) {
+      this.setState({ buttonNav: false });
     } else {
-      // alert("Please select file");
-      setState({ ...state, buttonNav: true });
-      showSnackbar("error show", "Please select a file before Translate");
+      this.setState({ buttonNav: true });
+      this.showSnackbar("show","error", "Please select a file before Translate");
     }
   };
 
-  return (
-    <div className="dropbox-wrapper">
-      {/* <span className="dropbox-wrapper__label">Select file*</span> */}
-      <Label>Select file*</Label>
-      <div
-        className="dropbox"
-        onDrop={(e: any) =>
-          state.uploadFailed || state.uploading ? null : handleDrop(e)
-        }
-        onDragOver={(e: any) =>
-          state.uploadFailed || state.uploading ? null : handleDragOver(e)
-        }
-        onDragEnter={(e: any) =>
-          state.uploadFailed || state.uploading ? null : handleDragEnter(e)
-        }
-        onDragLeave={(e: any) =>
-          state.uploadFailed || state.uploading ? null : handleDragLeave(e)
-        }
-      >
-        <input
-          type="file"
-          id="fileinput"
-          name="fileinput"
-          className="fileinput"
-          accept=".csv"
-          onChange={(e: any) => readFile(e)}
-        />
-
+  render() {
+    const {
+      uploadFailed,
+      uploading,
+      onDrag,
+      showEnterMessage,
+      fileName,
+      modifiedDate,
+      buttonNav,
+      snackbarType,
+      snackbarMsg,
+      visibility
+    } = this.state;
+    return (
+      <div className="dropbox-wrapper">
+        <Label>Select file*</Label>
         <div
-          className={state.onDrag ? "ondrag-wrapper active" : "ondrag-wrapper"}
+          className="dropbox"
+          onDrop={(e: any) =>
+            uploadFailed || uploading ? null : this.handleDrop(e)
+          }
+          onDragOver={(e: any) =>
+            uploadFailed || uploading ? null : this.handleDragOver(e)
+          }
+          onDragEnter={(e: any) =>
+            uploadFailed || uploading ? null : this.handleDragEnter(e)
+          }
+          onDragLeave={(e: any) =>
+            uploadFailed || uploading ? null : this.handleDragLeave(e)
+          }
         >
-          <p>Drop your file</p>
-        </div>
+          <input
+            type="file"
+            id="fileinput"
+            name="fileinput"
+            className="fileinput"
+            accept=".csv"
+            onChange={(e: any) => this.readFile(e)}
+          />
 
-        {state.showEnterMessage ? (
-          <label htmlFor="fileinput">
-            <div className="upload-container">
-              <img src={uploadIcon} alt="Upload icon" />
-              <h6>Drop source files here</h6>
-              <p>Supported file type: csv</p>
-            </div>
-          </label>
-        ) : (
-          !state.onDrag && (
-            <div className="file-info">
-              <div>
-                <p className="file-info__name">{state.fileName}</p>
-                <p className="file-info__date">
-                  Uploaded on {state.modifiedDate}
-                </p>
-              </div>
-              <img
-                src={trashIcon}
-                alt="Trash icon"
-                onClick={(e) =>
-                  setState({
-                    ...state,
-                    showEnterMessage: true,
-                    buttonNav: true,
-                  })
-                }
-              />
-            </div>
-          )
-        )}
-      </div>
-      <div className="btn-wrapper">
-        {state.buttonNav ? (
-          <Button onClick={translateFile}>Translate</Button>
-        ) : (
-          <div>
-            <Button type="secondary">Preview</Button>
-            <Button>Download</Button>
+          <div className={onDrag ? "ondrag-wrapper active" : "ondrag-wrapper"}>
+            <p>Drop your file</p>
           </div>
-        )}
+
+          {showEnterMessage ? (
+            <label htmlFor="fileinput">
+              <div className="upload-container">
+                <img src={uploadIcon} alt="Upload icon" />
+                <h6>Drop source files here</h6>
+                <p>Supported file type: csv</p>
+              </div>
+            </label>
+          ) : (
+            !onDrag && (
+              <div className="file-info">
+                <div>
+                  <p className="file-info__name">{fileName}</p>
+                  <p className="file-info__date">Uploaded on {modifiedDate}</p>
+                </div>
+                <img
+                  src={trashIcon}
+                  alt="Trash icon"
+                  onClick={(e) =>
+                    this.setState({
+                      showEnterMessage: true,
+                      buttonNav: true,
+                    })
+                  }
+                />
+              </div>
+            )
+          )}
+        </div>
+        <div className="btn-wrapper">
+          {buttonNav ? (
+            <Button onClick={this.translateFile}>Translate</Button>
+          ) : (
+            <div>
+              <Button type="secondary">Preview</Button>
+              <Button>Download</Button>
+            </div>
+          )}
+        </div>
+        <Snackbar message={snackbarMsg} type={snackbarType} visibility={visibility}/>
       </div>
-      <div className={"snackbar " + state.snackbarType}>
-        {state.snackbarMsg}
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Dropbox;
