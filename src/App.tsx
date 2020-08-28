@@ -3,7 +3,8 @@ import "./App.scss";
 import "react-dropzone-uploader/dist/styles.css";
 import Button from "./components/Button/Button";
 import Dropdown from "./components/Dropdown/Dropdown";
-// import Dropbox from "./components/Dropbox/Dropbox";
+import Dropbox from "./components/Dropbox/Dropbox";
+import Textarea from "./components/Textarea/Textarea";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
             { key: "Sd", text: "Man" },
           ]}
         ></Dropdown>
+        <Dropbox></Dropbox>
+        <Textarea placeholder="asd" onChange={() => {}}></Textarea>
       </div>
     </div>
   );
