@@ -3,11 +3,11 @@ import "../../styles/Dropbox.scss";
 
 import { useState } from "react";
 import Button from "../Button/Button";
+import Label from "components/Label/Label";
 import "styles/Dropbox.scss";
 
 import uploadIcon from "assets/icon-add-file.png";
 import trashIcon from "assets/icon-delete.png";
-
 
 function Dropbox() {
   var dateObj = new Date();
@@ -85,17 +85,18 @@ function Dropbox() {
   };
 
   const translateFile = function () {
-    if(!state.showEnterMessage){
+    if (!state.showEnterMessage) {
       setState({ ...state, buttonNav: false });
-    }else{
-      alert('Please select file')
+    } else {
+      alert("Please select file");
       setState({ ...state, buttonNav: true });
     }
   };
 
   return (
     <div className="dropbox-wrapper">
-      <span className="dropbox-wrapper__label">Select file*</span>
+      {/* <span className="dropbox-wrapper__label">Select file*</span> */}
+      <Label>Select file*</Label>
       <div
         className="dropbox"
         onDrop={(e: any) =>
@@ -146,7 +147,13 @@ function Dropbox() {
               <img
                 src={trashIcon}
                 alt="Trash icon"
-                onClick={(e) => setState({ ...state, showEnterMessage: true, buttonNav: true })}
+                onClick={(e) =>
+                  setState({
+                    ...state,
+                    showEnterMessage: true,
+                    buttonNav: true,
+                  })
+                }
               />
             </div>
           )

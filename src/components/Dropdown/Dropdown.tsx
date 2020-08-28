@@ -1,5 +1,6 @@
 import React from "react";
 import "styles/Dropdown.scss";
+import Label from "components/Label/Label";
 
 interface DropdownItem {
   value: number | string;
@@ -18,7 +19,7 @@ interface DropdownProps {
 function Dropdown(props: DropdownProps) {
   return (
     <div className={"dropdown " + (props.className ? props.className : "")}>
-      {props.label && <label>{props.label}</label>}
+      {props.label && <Label>{props.label}</Label>}
       <div className="dropdown__container">
         <select onChange={(e) => props.onChange(e)}>
           {props.placeholder && (

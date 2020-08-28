@@ -1,5 +1,6 @@
 import React from "react";
 import "styles/Textarea.scss";
+import Label from "components/Label/Label";
 
 interface TextareaProps {
   value?: string;
@@ -19,7 +20,7 @@ function Textarea(props: TextareaProps) {
         (props.className ? props.className : "")
       }
     >
-      {props.label && <label>{props.label}</label>}
+      {props.label && <Label>{props.label}</Label>}
       <textarea
         onChange={(e) => props.onChange(e)}
         value={props.value ? props.value : ""}

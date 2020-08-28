@@ -59,7 +59,7 @@ class TranslateText extends React.Component<{}, State> {
           </div>
           <div className="column">
             <Textarea
-              label="Type in text here*"
+              label="Translated text"
               placeholder="asd"
               onChange={() => {}}
               fullWidth
