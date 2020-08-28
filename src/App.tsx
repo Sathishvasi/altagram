@@ -11,6 +11,7 @@ function App() {
     <div className="app">
       <div className="app__container">
         <BrowserRouter>
+          <h2 className="title">Translate</h2>
           <Navbar></Navbar>
           <div className="tabview">
             <Switch>

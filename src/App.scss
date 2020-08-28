@@ -1,3 +1,5 @@
+$padding-default: 25px;
+
 .app {
   min-height: 100vh;
   background-color: #212121;
@@ -7,12 +9,23 @@
     width: 100%;
     height: auto;
     position: relative;
-    padding-top: 25px;
+    padding-top: $padding-default;
     background: #121212;
     border-radius: 5px;
-  }
 
-  .tabview {
-    padding: 25px;
+    .title {
+      margin-top: 0;
+      margin-left: $padding-default;
+      padding: 0;
+      font-size: 24px;
+      font-weight: 500;
+      font-family: "Quicksand", sans-serif;
+      color: #364fc9;
+      margin-bottom: 35px;
+    }
+
+    .tabview {
+      padding: $padding-default;
+    }
   }
 }

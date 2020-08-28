@@ -1,0 +1,28 @@
+.navbar {
+  border-bottom: 1px solid #ced4da;
+  padding-bottom: 11px;
+  padding-left: 25px;
+
+  .navlink {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Quicksand", sans-serif;
+    color: #f4f8f9;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-bottom: 5px solid rgba(0, 0, 0, 0);
+    padding: 0 8px 8px;
+
+    &:not(:last-of-type) {
+      margin-right: 40px;
+    }
+
+    &.active {
+      border-color: #e5de2d;
+    }
+
+    &:not(.active):hover {
+      //   opacity: 0.8;
+    }
+  }
+}
