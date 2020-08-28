@@ -1,8 +1,8 @@
 import React from "react";
-import "../../styles/Dropbox.scss";
+import "styles/Dropbox.scss";
 
 import { useState } from "react";
-import Button from "../Button/Button";
+import Button from "components/Button/Button";
 import Label from "components/Label/Label";
 import "styles/Dropbox.scss";
 

@@ -1,4 +1,4 @@
-.textarea-container {
+.mt-textarea {
   display: inline-block;
   min-width: 344px;
 
@@ -29,5 +29,14 @@
     &::placeholder {
       color: #adb5bd;
     }
+  }
+
+  .counter {
+    display: block;
+    font-weight: 500;
+    font-size: 12px;
+    color: #adb5bd;
+    margin-top: 2px;
+    float: right;
   }
 }

@@ -13,17 +13,22 @@ interface DropdownProps {
   placeholder?: string;
   label?: string;
   className?: string;
+  name?: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 function Dropdown(props: DropdownProps) {
   return (
-    <div className={"dropdown " + (props.className ? props.className : "")}>
+    <div className={"mt-dropdown " + (props.className ? props.className : "")}>
       {props.label && <Label>{props.label}</Label>}
-      <div className="dropdown__container">
-        <select onChange={(e) => props.onChange(e)}>
+      <div className="mt-dropdown__container">
+        <select
+          onChange={(e) => props.onChange(e)}
+          value={props.value ? props.value : 0}
+          name={props.name ? props.name : ""}
+        >
           {props.placeholder && (
-            <option className="placeholder" disabled selected={!props.value}>
+            <option className="placeholder" disabled value={0}>
               {props.placeholder}
             </option>
           )}

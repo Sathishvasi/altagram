@@ -12,6 +12,7 @@ function Button(props: ButtonProps) {
   return (
     <button
       className={
+        "mt-button " +
         (props.className ? props.className + " " : "") +
         (props.type ? props.type : "primary")
       }

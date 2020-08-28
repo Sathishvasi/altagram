@@ -8,7 +8,9 @@ interface LabelProps {
 
 function Label(props: LabelProps) {
   return (
-    <label className={props.className ? props.className + " " : ""}>
+    <label
+      className={"mt-label" + (props.className ? props.className + " " : "")}
+    >
       {props.children}
     </label>
   );
