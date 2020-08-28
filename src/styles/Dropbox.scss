@@ -90,4 +90,12 @@
             }
         }
     }
+    .snackbar {
+        &.error {
+            background-color: #ff685f;
+        }
+        &.success {
+            background-color: #b6f7a9;
+        }
+    }
 }

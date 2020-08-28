@@ -16,6 +16,8 @@ function Dropbox() {
     uploadFailed: false,
     uploading: false,
     fileName: null,
+    snackbarMsg: '',
+    snackbarType: '',
     modifiedDate:
       dateObj.getDate() +
       "." +
@@ -25,6 +27,13 @@ function Dropbox() {
     onDrag: false,
     buttonNav: true,
   });
+
+  const showSnackbar = function (type: any, msg: any) {
+    setState({ ...state, snackbarMsg: msg, snackbarType: type });
+    setTimeout(() => {
+      setState({ ...state, snackbarMsg: '', snackbarType: '' });
+    }, 2000);
+  };
 
   const handleDragEnter = function (e: any) {
     setState({ ...state, showEnterMessage: false, onDrag: true });
@@ -58,12 +67,18 @@ function Dropbox() {
         onDrag: false,
       });
     } else {
-      alert("Supported file type: csv");
+      // showSnackbar("error show", "Supported file type: csv");
       setState({
         ...state,
         showEnterMessage: true,
         onDrag: false,
+        snackbarMsg: "Supported file type: csv",
+        snackbarType: "error show",
       });
+      
+      setTimeout(() => {
+        setState({ ...state, snackbarMsg: '', snackbarType: '', onDrag: false, showEnterMessage: true });
+      }, 2000);
     }
     e.preventDefault();
     e.stopPropagation();
@@ -71,7 +86,7 @@ function Dropbox() {
 
   const readFile = function (event: any) {
     if (event.target.files && event.target.files[0]) {
-      //Snippet to get file URL
+      /*Snippet to get file URL*/
       //let reader = new FileReader();
       //reader.onload = (e) => {
       //  console.log(e && e.target ? e.target : '')
@@ -88,8 +103,9 @@ function Dropbox() {
     if (!state.showEnterMessage) {
       setState({ ...state, buttonNav: false });
     } else {
-      alert("Please select file");
+      // alert("Please select file");
       setState({ ...state, buttonNav: true });
+      showSnackbar("error show", "Please select a file before Translate");
     }
   };
 
@@ -168,6 +184,9 @@ function Dropbox() {
             <Button>Download</Button>
           </div>
         )}
+      </div>
+      <div className={"snackbar " + state.snackbarType}>
+        {state.snackbarMsg}
       </div>
     </div>
   );
