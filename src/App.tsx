@@ -17,8 +17,8 @@ function App() {
         <Dropdown
           placeholder="Select source language"
           items={[
-            { key: "abc", text: "Sdf" },
-            { key: "Sd", text: "Man" },
+            { value: "abc", text: "Sdf" },
+            { value: "Sd", text: "Man" },
           ]}
         ></Dropdown>
         <Dropbox></Dropbox>

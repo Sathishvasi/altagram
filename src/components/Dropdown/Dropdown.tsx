@@ -2,7 +2,7 @@ import React from "react";
 import "../../styles/Dropdown.scss";
 
 interface DropdownItem {
-  key: number | string;
+  value: number | string;
   text: string;
 }
 
@@ -25,7 +25,7 @@ function Dropdown(props: DropdownProps) {
         )}
         {props.items &&
           props.items.map((item, index) => (
-            <option key={index} value={item.key}>
+            <option key={index} value={item.value}>
               {item.text}
             </option>
           ))}
