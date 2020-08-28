@@ -16,11 +16,15 @@
     outline: none;
     transition: all 0.3s;
     color: #f4f8f9;
-    border-color: #adb5bd;
+    // border-color: #adb5bd;
     resize: none;
     padding: 12px;
     width: 100%;
     min-height: 150px;
+
+    &:hover {
+      border-color: #adb5bd;
+    }
 
     &:focus {
       border-color: #e5de2d;

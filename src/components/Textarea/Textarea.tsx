@@ -8,30 +8,34 @@ interface TextareaProps {
   label?: string;
   className?: string;
   fullWidth?: boolean;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 function Textarea(props: TextareaProps) {
   const maxLength = 500;
 
+  const getCounterText = () => {
+    return props.value
+      ? `${props.value.length}/${maxLength}`
+      : `0/${maxLength}`;
+  };
+
   return (
     <div
       className={
         "mt-textarea " +
-        (props.fullWidth ? "full-width " : "") +
-        (props.className ? props.className : "")
+        (props.className ? props.className + " " : "") +
+        (props.fullWidth ? "full-width " : "")
       }
     >
       {props.label && <Label>{props.label}</Label>}
       <textarea
-        onChange={(e) => props.onChange(e)}
+        onChange={props.onChange}
         value={props.value ? props.value : ""}
         placeholder={props.placeholder ? props.placeholder : ""}
         maxLength={maxLength}
       ></textarea>
-      <label className="counter">
-        {props.value ? `${props.value.length}/${maxLength}` : `0/${maxLength}`}
-      </label>
+      <label className="counter">{getCounterText()}</label>
     </div>
   );
 }

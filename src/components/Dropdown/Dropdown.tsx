@@ -14,7 +14,7 @@ interface DropdownProps {
   label?: string;
   className?: string;
   name?: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 function Dropdown(props: DropdownProps) {
@@ -23,7 +23,7 @@ function Dropdown(props: DropdownProps) {
       {props.label && <Label>{props.label}</Label>}
       <div className="mt-dropdown__container">
         <select
-          onChange={(e) => props.onChange(e)}
+          onChange={props.onChange}
           value={props.value ? props.value : 0}
           name={props.name ? props.name : ""}
         >
