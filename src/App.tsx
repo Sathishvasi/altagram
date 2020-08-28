@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="app">
       <div className="app__container">
-        <BrowserRouter>
+        <BrowserRouter basename="/altagram/">
           <h2 className="title">Translate</h2>
           <Navbar></Navbar>
           <div className="tabview">
