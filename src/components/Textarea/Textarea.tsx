@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/Textarea.scss";
+import "styles/Textarea.scss";
 
 interface TextareaProps {
   value?: string;

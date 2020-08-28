@@ -11,6 +11,12 @@ textarea {
   border-color: #adb5bd;
   resize: none;
   padding: 12px;
+  min-width: 344px;
+  min-height: 88px;
+
+  &:focus {
+    border-color: #e5de2d;
+  }
 
   &::placeholder {
     color: #adb5bd;

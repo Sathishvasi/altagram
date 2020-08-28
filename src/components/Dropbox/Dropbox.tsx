@@ -1,7 +1,7 @@
 import React from "react";
-import "../../styles/Dropbox.scss";
-import uploadIcon from "../../assets/icon-add-file.png";
-import trashIcon from "../../assets/icon-delete.png";
+import "styles/Dropbox.scss";
+import uploadIcon from "assets/icon-add-file.png";
+import trashIcon from "assets/icon-delete.png";
 import { useEffect, useState, useRef } from "react";
 import { readFile } from "fs";
 
@@ -27,7 +27,11 @@ function Dropbox() {
   };
 
   const handleDragLeave = function (e: any) {
-    let fileName = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0] && e.dataTransfer.files[0].name;
+    let fileName =
+      e.dataTransfer &&
+      e.dataTransfer.files &&
+      e.dataTransfer.files[0] &&
+      e.dataTransfer.files[0].name;
     setState({ ...state, showEnterMessage: false, fileName: fileName });
     e.preventDefault();
     e.stopPropagation();
