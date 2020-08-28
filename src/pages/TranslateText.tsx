@@ -47,29 +47,27 @@ class TranslateText extends React.Component<{}, State> {
             </h5>
           </div>
         </div>
-        <Button type="secondary" onClick={() => console.log("Hsdf")}>
-          Preview
-        </Button>
-        <Button>Download</Button>
-        <Dropdown
-          placeholder="Select source language"
-          items={[
-            { value: "abc", text: "Sdf" },
-            { value: "Sd", text: "Man" },
-          ]}
-          onChange={() => {}}
-        ></Dropdown>
-        <Textarea
-          label="Type in text here*"
-          placeholder="asd"
-          onChange={() => {}}
-        ></Textarea>
 
-        <Textarea
-          label="Type in text here*"
-          placeholder="asd"
-          onChange={() => {}}
-        ></Textarea>
+        <div className="text-inputs">
+          <div className="column">
+            <Textarea
+              label="Type in text here*"
+              placeholder="asd"
+              onChange={() => {}}
+              fullWidth
+            ></Textarea>
+          </div>
+          <div className="column">
+            <Textarea
+              label="Type in text here*"
+              placeholder="asd"
+              onChange={() => {}}
+              fullWidth
+            ></Textarea>
+          </div>
+        </div>
+
+        <Button className="submit-button">Translate</Button>
       </div>
     );
   }

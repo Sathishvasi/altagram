@@ -6,15 +6,21 @@ interface TextareaProps {
   placeholder?: string;
   label?: string;
   className?: string;
+  fullWidth?: boolean;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 function Textarea(props: TextareaProps) {
   return (
-    <div className="textarea-container">
+    <div
+      className={
+        "textarea-container " +
+        (props.fullWidth ? "full-width " : "") +
+        (props.className ? props.className : "")
+      }
+    >
       {props.label && <label>{props.label}</label>}
       <textarea
-        className={props.className ? props.className : ""}
         onChange={(e) => props.onChange(e)}
         value={props.value ? props.value : ""}
         placeholder={props.placeholder ? props.placeholder : ""}

@@ -1,5 +1,10 @@
 .textarea-container {
   display: inline-block;
+  min-width: 344px;
+
+  &.full-width {
+    width: 100%;
+  }
 
   label {
     display: block;
@@ -22,8 +27,8 @@
     border-color: #adb5bd;
     resize: none;
     padding: 12px;
-    min-width: 344px;
-    min-height: 88px;
+    width: 100%;
+    min-height: 150px;
 
     &:focus {
       border-color: #e5de2d;

@@ -31,7 +31,7 @@ $padding-default: 25px;
 }
 
 .language {
-  margin: 10px 0 25px;
+  margin: 10px 0 50px;
 
   &__dropdown:not(:last-of-type) {
     margin-right: 80px;
@@ -50,5 +50,17 @@ $padding-default: 25px;
         color: #adb5bd;
       }
     }
+  }
+}
+
+.text-inputs {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+
+  .column {
+    width: 48%;
+    display: inline-block;
   }
 }
