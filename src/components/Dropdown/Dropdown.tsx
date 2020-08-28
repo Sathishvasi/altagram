@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/Dropdown.scss";
+import "styles/Dropdown.scss";
 
 interface DropdownItem {
   value: number | string;
@@ -16,7 +16,7 @@ interface DropdownProps {
 
 function Dropdown(props: DropdownProps) {
   return (
-    <div className="dropdown">
+    <div className={"dropdown " + (props.className ? props.className : "")}>
       <select>
         {props.placeholder && (
           <option className="placeholder" disabled selected={!props.value}>

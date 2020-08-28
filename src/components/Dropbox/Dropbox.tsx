@@ -1,9 +1,13 @@
 import React from "react";
 import "../../styles/Dropbox.scss";
-import uploadIcon from "../../assets/icon-add-file.png";
-import trashIcon from "../../assets/icon-delete.png";
+
 import { useState } from "react";
 import Button from "../Button/Button";
+import "styles/Dropbox.scss";
+
+import uploadIcon from "assets/icon-add-file.png";
+import trashIcon from "assets/icon-delete.png";
+
 
 function Dropbox() {
   var dateObj = new Date();
