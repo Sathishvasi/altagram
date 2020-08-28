@@ -114,6 +114,7 @@ class Dropbox extends React.Component<{}, State> {
   translateFile = () => {
     if (!this.state.showEnterMessage) {
       this.setState({ buttonNav: false });
+      this.showSnackbar("show","success", "Translation completed successfully");
     } else {
       this.setState({ buttonNav: true });
       this.showSnackbar("show","error", "Please select a file before Translate");
