@@ -3,7 +3,7 @@ import "./App.scss";
 import "react-dropzone-uploader/dist/styles.css";
 import Button from "./components/Button/Button";
 import Dropdown from "./components/Dropdown/Dropdown";
-// import Dropbox from "./components/Dropbox/Dropbox";
+import Dropbox from "./components/Dropbox/Dropbox";
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
             { value: "Sd", text: "Man" },
           ]}
         ></Dropdown>
+        <Dropbox/>
       </div>
     </div>
   );
