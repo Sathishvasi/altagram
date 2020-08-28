@@ -11,7 +11,10 @@ interface ButtonProps {
 function Button(props: ButtonProps) {
   return (
     <button
-      className={props.className + " " + (props.type ? props.type : "primary")}
+      className={
+        (props.className ? props.className + " " : "") +
+        (props.type ? props.type : "primary")
+      }
       onClick={props.onClick}
     >
       {props.children}

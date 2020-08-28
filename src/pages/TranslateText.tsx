@@ -25,8 +25,13 @@ class TranslateText extends React.Component<{}, State> {
             { value: "abc", text: "Sdf" },
             { value: "Sd", text: "Man" },
           ]}
+          onChange={() => {}}
         ></Dropdown>
-        <Textarea placeholder="asd" onChange={() => {}}></Textarea>
+        <Textarea
+          label="Type in text here*"
+          placeholder="asd"
+          onChange={() => {}}
+        ></Textarea>
       </div>
     );
   }

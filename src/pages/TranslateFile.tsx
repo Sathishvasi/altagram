@@ -15,17 +15,28 @@ class TranslateFile extends React.Component<{}, State> {
   render() {
     return (
       <div>
-        <Button type="secondary" onClick={() => console.log("Hsdf")}>
-          Preview
-        </Button>
-        <Button>Download</Button>
         <Dropdown
+          label="Source language"
           placeholder="Select source language"
           items={[
             { value: "abc", text: "Sdf" },
             { value: "Sd", text: "Man" },
           ]}
+          onChange={() => {}}
         ></Dropdown>
+        <Dropdown
+          label="Target language"
+          placeholder="Select target language"
+          items={[
+            { value: "abc", text: "Sdf" },
+            { value: "Sd", text: "Man" },
+          ]}
+          onChange={() => {}}
+        ></Dropdown>
+        <Button type="secondary" onClick={() => console.log("Hsdf")}>
+          Preview
+        </Button>
+        <Button>Download</Button>
         <Dropbox></Dropbox>
       </div>
     );

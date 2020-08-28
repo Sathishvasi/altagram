@@ -1,24 +1,36 @@
-textarea {
-  background: #323232;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-family: "Quicksand", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  outline: none;
-  transition: all 0.3s;
-  color: #f4f8f9;
-  border-color: #adb5bd;
-  resize: none;
-  padding: 12px;
-  min-width: 344px;
-  min-height: 88px;
+.textarea-container {
+  display: inline-block;
 
-  &:focus {
-    border-color: #e5de2d;
+  label {
+    display: block;
+    font-weight: 500;
+    font-size: 12px;
+    color: #f4f8f9;
+    margin-bottom: 5px;
   }
 
-  &::placeholder {
-    color: #adb5bd;
+  textarea {
+    background: #323232;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: "Quicksand", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.3s;
+    color: #f4f8f9;
+    border-color: #adb5bd;
+    resize: none;
+    padding: 12px;
+    min-width: 344px;
+    min-height: 88px;
+
+    &:focus {
+      border-color: #e5de2d;
+    }
+
+    &::placeholder {
+      color: #adb5bd;
+    }
   }
 }
