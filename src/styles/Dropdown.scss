@@ -30,7 +30,7 @@
       font-weight: 500;
       outline: none;
       transition: all 0.3s;
-      color: #f4f8f9;
+      color: #F4F8F9;
       min-width: 250px;
       // border-color: #adb5bd;
       position: relative;
@@ -47,9 +47,13 @@
       &:focus {
         border-color: #e5de2d;
       }
-
-      .placeholder {
-        color: #adb5bd;
+      &:required {
+        &:invalid {
+          color:#ADB5BD;
+        }
+      }
+      option[value="0"][disabled] {
+        display: none;
       }
     }
   }

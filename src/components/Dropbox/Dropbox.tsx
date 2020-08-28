@@ -148,7 +148,7 @@ function Dropbox() {
             <div className="upload-container">
               <img src={uploadIcon} alt="Upload icon" />
               <h6>Drop source files here</h6>
-              <p>Supported file type: csv</p>
+              <p>Supported file type: .csv</p>
             </div>
           </label>
         ) : (
