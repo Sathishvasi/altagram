@@ -114,6 +114,7 @@ class Dropbox extends React.Component<{}, State> {
   translateFile = () => {
     if (!this.state.showEnterMessage) {
       this.setState({ buttonNav: false });
+      this.showSnackbar("show","success", "Translation completed successfully");
     } else {
       this.setState({ buttonNav: true });
       this.showSnackbar("show","error", "Please select a file before Translate");
@@ -170,7 +171,7 @@ class Dropbox extends React.Component<{}, State> {
               <div className="upload-container">
                 <img src={uploadIcon} alt="Upload icon" />
                 <h6>Drop source files here</h6>
-                <p>Supported file type: csv</p>
+                <p>Supported file type: .csv</p>
               </div>
             </label>
           ) : (
