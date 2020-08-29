@@ -158,6 +158,7 @@ class Dropbox extends React.Component<{}, State> {
             className="fileinput"
             accept=".csv"
             onChange={(e: any) => this.readFile(e)}
+            onClick={(e: any)=> { e.target.value = null }}
           />
 
           <div className={onDrag ? "ondrag-wrapper active" : "ondrag-wrapper"}>
