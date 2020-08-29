@@ -6,7 +6,7 @@
     }
     .dropbox {
         color: #f4f8f9;
-        min-height: 174px;
+        min-height: 200px;
         border: 1px dashed #adb5bd;
         background: #212121 0% 0% no-repeat padding-box;
         border-radius: 4px;
@@ -38,10 +38,13 @@
         }
         label {
             width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 195px;
         }
         .upload-container {
             color: #f4f8f9;
-            padding: 21.5px 0;
             text-align: center;
             cursor: pointer;
             img {
