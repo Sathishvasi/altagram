@@ -10,15 +10,16 @@ interface Language {
 interface State {
   sourceLanguage: Language;
   targetLanguage: Language;
-  languages: Language[];
+  sourceLanguages: Language[];
+  targetLanguages: Language[];
 }
 
 class LanguageSelector extends React.Component<{}, State> {
   state: State = {
     sourceLanguage: { value: "", text: "" },
     targetLanguage: { value: "", text: "" },
-    languages: [
-      { value: "EN", text: "English" },
+    sourceLanguages: [{ value: "EN", text: "English" }],
+    targetLanguages: [
       { value: "IT", text: "Italian" },
       { value: "GE", text: "German" },
       { value: "SP", text: "Spanish" },
@@ -28,7 +29,7 @@ class LanguageSelector extends React.Component<{}, State> {
 
   handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const target = e.target;
-    const text = this.getLanguageName(e.target.value);
+    const text = this.getLanguageName(e.target.value, target.name);
     const language = {
       value: e.target.value,
       text,
@@ -41,8 +42,17 @@ class LanguageSelector extends React.Component<{}, State> {
     }
   };
 
-  getLanguageName = (code: string) => {
-    const { languages } = this.state;
+  getLanguageName = (code: string, type: string) => {
+    const { sourceLanguages, targetLanguages } = this.state;
+    let languages;
+
+    if (type === "sourceLanguage") {
+      languages = sourceLanguages;
+    } else if (type === "targetLanguage") {
+      languages = targetLanguages;
+    } else {
+      return "";
+    }
 
     for (let language of languages) {
       if (language.value === code) {
@@ -54,7 +64,12 @@ class LanguageSelector extends React.Component<{}, State> {
   };
 
   render() {
-    const { sourceLanguage, targetLanguage, languages } = this.state;
+    const {
+      sourceLanguage,
+      targetLanguage,
+      sourceLanguages,
+      targetLanguages,
+    } = this.state;
 
     return (
       <div className="language">
@@ -64,7 +79,7 @@ class LanguageSelector extends React.Component<{}, State> {
           placeholder="Select source language"
           name="sourceLanguage"
           value={sourceLanguage.value}
-          items={languages}
+          items={sourceLanguages}
           onChange={this.handleChange}
         ></Dropdown>
         <Dropdown
@@ -73,7 +88,7 @@ class LanguageSelector extends React.Component<{}, State> {
           placeholder="Select target language"
           name="targetLanguage"
           value={targetLanguage.value}
-          items={languages}
+          items={targetLanguages}
           onChange={this.handleChange}
         ></Dropdown>
 

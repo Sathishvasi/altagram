@@ -1,43 +1,48 @@
-$padding-default: 24px;
+$padding-default: 25px;
+
 .app {
-    min-height: 100vh;
-    background-color: #212121;
-    padding: 5%;
-    &__container {
-        width: 100%;
-        height: auto;
-        position: relative;
-        padding-top: $padding-default;
-        background: #121212;
-        border-radius: 5px;
-        .title {
-            margin-top: 0;
-            margin-left: $padding-default;
-            padding: 0;
-            font-size: 24px;
-            font-weight: 500;
-            font-family: "Quicksand", sans-serif;
-            color: #364fc9;
-            margin-bottom: 32px;
-        }
-        .tabview {
-            padding: $padding-default;
-        }
+  min-height: 100vh;
+  background-color: #212121;
+  padding: 5%;
+
+  &__container {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding-top: $padding-default;
+    background: #121212;
+    border-radius: 5px;
+
+    .title {
+      margin-top: 0;
+      margin-left: $padding-default;
+      padding: 0;
+      font-size: 24px;
+      font-weight: bold;
+      font-family: "Quicksand", sans-serif;
+      color: #f4f8f9;
+      margin-bottom: 35px;
     }
+
+    .tabview {
+      padding: $padding-default;
+    }
+  }
 }
 
 .text-inputs {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
-    .column {
-        width: 48%;
-        display: inline-block;
-    }
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+
+  .column {
+    width: 48%;
+    display: inline-block;
+  }
 }
 
 .submit-button {
-    margin-left: auto;
-    display: block;
+  margin-left: auto;
+  display: block;
 }
