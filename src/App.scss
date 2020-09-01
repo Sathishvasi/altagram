@@ -1,109 +1,114 @@
 $padding-default: 25px;
+
 .app {
-    min-height: 100vh;
-    background-color: #212121;
-    padding: 5%;
-    &__container {
-        width: 100%;
-        height: auto;
-        position: relative;
-        padding-top: $padding-default;
-        background: #121212;
-        border-radius: 5px;
-        .title {
-            margin-top: 0;
-            margin-left: $padding-default;
-            padding: 0;
-            font-size: 24px;
-            font-weight: 500;
-            font-family: "Quicksand", sans-serif;
-            color: #364fc9;
-            margin-bottom: 35px;
-        }
-        .tabview {
-            padding: $padding-default;
-        }
+  min-height: 100vh;
+  background-color: #212121;
+  padding: 5%;
+
+  &__container {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding-top: $padding-default;
+    background: #121212;
+    border-radius: 5px;
+
+    .title {
+      margin-top: 0;
+      margin-left: $padding-default;
+      padding: 0;
+      font-size: 24px;
+      font-weight: bold;
+      font-family: "Quicksand", sans-serif;
+      color: #f4f8f9;
+      margin-bottom: 35px;
     }
+
+    .tabview {
+      padding: $padding-default;
+    }
+  }
 }
 
 .text-inputs {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
-    .column {
-        width: 48%;
-        display: inline-block;
-    }
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+
+  .column {
+    width: 48%;
+    display: inline-block;
+  }
 }
 
 .submit-button {
-    margin-left: auto;
-    display: block;
+  margin-left: auto;
+  display: block;
 }
 
 .snackbar {
-    visibility: hidden;
-    text-align: center;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%);
-    background-color: #a9a9a9;
-    color: #212121;
-    font-size: 14px;
-    height: 40px;
-    padding: 11px 16px;
-    border-radius: 4px;
-    font-family: "Quicksand", sans-serif;
-    &.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    }
+  visibility: hidden;
+  text-align: center;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  background-color: #a9a9a9;
+  color: #212121;
+  font-size: 14px;
+  height: 40px;
+  padding: 11px 16px;
+  border-radius: 4px;
+  font-family: "Quicksand", sans-serif;
+  &.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
 }
 
 @-webkit-keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
-    }
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
-    }
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
-    }
-    to {
-        bottom: 0;
-        opacity: 0;
-    }
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
-    }
-    to {
-        bottom: 0;
-        opacity: 0;
-    }
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }

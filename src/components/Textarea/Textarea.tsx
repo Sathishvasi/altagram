@@ -12,7 +12,7 @@ interface TextareaProps {
 }
 
 function Textarea(props: TextareaProps) {
-  const maxLength = 500;
+  const maxLength = 2000;
 
   const getCounterText = () => {
     return props.value
