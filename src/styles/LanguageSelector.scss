@@ -1,5 +1,5 @@
 .language {
-  margin: 10px 0 40px;
+  margin: 2px 0 24px;
 
   &__dropdown:not(:last-of-type) {
     margin-right: 80px;
@@ -8,7 +8,7 @@
   &__view {
     &-text {
       font-size: 14px;
-      line-height: 5px;
+      margin-top: 16px;
       font-weight: 500;
       font-family: "Quicksand", sans-serif;
       color: #f4f8f9;

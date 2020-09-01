@@ -23,15 +23,16 @@ function Dropdown(props: DropdownProps) {
       {props.label && <Label>{props.label}</Label>}
       <div className="mt-dropdown__container">
         <select
+        required
           onChange={props.onChange}
-          value={props.value ? props.value : 0}
+          value={props.value ? props.value : ""}
           name={props.name ? props.name : ""}
         >
-          {props.placeholder && (
-            <option className="placeholder" disabled value={0}>
+ 
+            <option disabled selected value="">
               {props.placeholder}
             </option>
-          )}
+
           {props.items &&
             props.items.map((item, index) => (
               <option key={index} value={item.value}>

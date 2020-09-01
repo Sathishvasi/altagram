@@ -10,8 +10,8 @@ class TranslateFile extends React.Component<{}, State> {
   render() {
     return (
       <div>
-        <LanguageSelector></LanguageSelector>
-        <Dropbox></Dropbox>
+        <LanguageSelector/>
+        <Dropbox/>
       </div>
     );
   }
