@@ -10,12 +10,14 @@ interface Language {
 type State = {
   sourceLanguage: Language;
   targetLanguage: Language;
+  file: File;
 };
 
 class TranslateFile extends React.Component<{}, State> {
   state: State = {
     sourceLanguage: { value: "", text: "" },
     targetLanguage: { value: "", text: "" },
+    file: new File([], "")
   };
 
   handleLanguageChange = (language: Language, type: string) => {
@@ -26,7 +28,19 @@ class TranslateFile extends React.Component<{}, State> {
     }
   };
 
-  render() {
+  handleFileChange = (file: File) => {
+    this.setState({
+      file: file
+    })
+  };
+
+  handleDeleteFile = () => {
+    this.setState({
+      file: new File([], "")
+    })
+  }
+
+  render() {    
     return (
       <div>
         <LanguageSelector
@@ -34,7 +48,9 @@ class TranslateFile extends React.Component<{}, State> {
           targetLanguage={this.state.targetLanguage}
           onChange={this.handleLanguageChange}
         />
-        <Dropbox />
+        <Dropbox
+          onChange={this.handleFileChange}
+          onDelete={this.handleDeleteFile} />
       </div>
     );
   }

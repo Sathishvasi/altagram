@@ -10,7 +10,8 @@ interface State {
   showEnterMessage: Boolean;
   uploadFailed: Boolean;
   uploading: Boolean;
-  fileName: string;
+  fileName?: string;
+  file?: File;
   snackbarMsg: string;
   snackbarType: string;
   modifiedDate: string;
@@ -19,7 +20,13 @@ interface State {
   visibility: string;
 }
 
-class Dropbox extends React.Component<{}, State> {
+interface Props {
+  file?: File;
+  onChange: (fileName: File) => void;
+  onDelete: () => void;
+}
+
+class Dropbox extends React.Component<Props, State> {
   state: State = {
     showEnterMessage: true,
     uploadFailed: false,
@@ -31,6 +38,7 @@ class Dropbox extends React.Component<{}, State> {
     onDrag: false,
     buttonNav: true,
     visibility: "",
+    file: new File([], "")
   };
 
   componentDidMount() {
@@ -101,6 +109,14 @@ class Dropbox extends React.Component<{}, State> {
     e.stopPropagation();
   };
 
+  componentDidUpdate = (prevProps: Props) => {
+    if (prevProps !== this.props) {
+      this.setState({
+        file: this.props.file
+      });
+    }
+  };
+
   readFile = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       /*Snippet to get file URL*/
@@ -110,11 +126,23 @@ class Dropbox extends React.Component<{}, State> {
       //};
       //reader.readAsDataURL(event.target.files[0]);
 
-      let fileInfo = event.target.files[0];
+      const fileInfo = event.target.files[0];
       console.log(fileInfo.name);
-      this.setState({ fileName: fileInfo.name, showEnterMessage: false });
+      this.setState({ fileName: fileInfo.name, showEnterMessage: false, file: fileInfo });
+
+
+      this.props.onChange(fileInfo);
     }
   };
+  handleDeleteFile = () => {
+    this.setState({
+      showEnterMessage: true,
+      buttonNav: true,
+      file: new File([], "")
+    })
+
+    this.props.onDelete();
+  }
 
   translateFile = () => {
     if (!this.state.showEnterMessage) {
@@ -190,35 +218,30 @@ class Dropbox extends React.Component<{}, State> {
               </div>
             </label>
           ) : (
-            !onDrag && (
-              <div className="file-info">
-                <div>
-                  <p className="file-info__name">{fileName}</p>
-                  <p className="file-info__date">Uploaded on {modifiedDate}</p>
+              !onDrag && (
+                <div className="file-info">
+                  <div>
+                    <p className="file-info__name">{fileName}</p>
+                    <p className="file-info__date">Uploaded on {modifiedDate}</p>
+                  </div>
+                  <img
+                    src={trashIcon}
+                    alt="Trash icon"
+                    onClick={this.handleDeleteFile}
+                  />
                 </div>
-                <img
-                  src={trashIcon}
-                  alt="Trash icon"
-                  onClick={(e) =>
-                    this.setState({
-                      showEnterMessage: true,
-                      buttonNav: true,
-                    })
-                  }
-                />
-              </div>
-            )
-          )}
+              )
+            )}
         </div>
         <div className="btn-wrapper">
           {buttonNav ? (
             <Button onClick={this.translateFile}>Translate</Button>
           ) : (
-            <div>
-              <Button type="secondary">Preview</Button>
-              <Button>Download</Button>
-            </div>
-          )}
+              <div>
+                <Button type="secondary">Preview</Button>
+                <Button>Download</Button>
+              </div>
+            )}
         </div>
         <Snackbar
           message={snackbarMsg}
