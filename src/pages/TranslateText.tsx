@@ -3,20 +3,42 @@ import Button from "components/Button/Button";
 import Textarea from "components/Textarea/Textarea";
 import LanguageSelector from "components/LanguageSelector/LanguageSelector";
 
+interface Language {
+  value: string;
+  text: string;
+}
+
 type State = {
   inputText: string;
   outputText: string;
+  sourceLanguage: Language;
+  targetLanguage: Language;
 };
 
 class TranslateText extends React.Component<{}, State> {
   state: State = {
     inputText: "",
     outputText: "",
+    sourceLanguage: { value: "", text: "" },
+    targetLanguage: { value: "", text: "" },
   };
+
+  handleLanguageChange = (language: Language, type: string) => {
+    if (type === "sourceLanguage") {
+      this.setState({ sourceLanguage: language });
+    } else if (type === "targetLanguage") {
+      this.setState({ targetLanguage: language });
+    }
+  };
+
   render() {
     return (
       <div>
-        <LanguageSelector/>
+        <LanguageSelector
+          sourceLanguage={this.state.sourceLanguage}
+          targetLanguage={this.state.targetLanguage}
+          onChange={this.handleLanguageChange}
+        />
         <div className="text-inputs">
           <div className="column">
             <Textarea

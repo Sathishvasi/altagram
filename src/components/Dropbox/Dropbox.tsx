@@ -16,7 +16,7 @@ interface State {
   modifiedDate: string;
   onDrag: Boolean;
   buttonNav: Boolean;
-  visibility: string
+  visibility: string;
 }
 
 class Dropbox extends React.Component<{}, State> {
@@ -30,7 +30,7 @@ class Dropbox extends React.Component<{}, State> {
     modifiedDate: "",
     onDrag: false,
     buttonNav: true,
-    visibility: ""
+    visibility: "",
   };
 
   componentDidMount() {
@@ -47,7 +47,11 @@ class Dropbox extends React.Component<{}, State> {
   }
 
   showSnackbar = (visibility: string, type: string, msg: string) => {
-    this.setState({ snackbarMsg: msg, snackbarType: type, visibility: visibility });
+    this.setState({
+      snackbarMsg: msg,
+      snackbarType: type,
+      visibility: visibility,
+    });
     setTimeout(() => {
       this.setState({ snackbarMsg: "", snackbarType: "", visibility: "" });
     }, 2000);
@@ -90,7 +94,7 @@ class Dropbox extends React.Component<{}, State> {
         onDrag: false,
       });
 
-      this.showSnackbar("show","error", "Supported file type: csv");
+      this.showSnackbar("show", "error", "Supported file type: csv");
     }
     e.preventDefault();
     e.stopPropagation();
@@ -114,10 +118,18 @@ class Dropbox extends React.Component<{}, State> {
   translateFile = () => {
     if (!this.state.showEnterMessage) {
       this.setState({ buttonNav: false });
-      this.showSnackbar("show","success", "Translation completed successfully");
+      this.showSnackbar(
+        "show",
+        "success",
+        "Translation completed successfully"
+      );
     } else {
       this.setState({ buttonNav: true });
-      this.showSnackbar("show","error", "Please select a file before Translate");
+      this.showSnackbar(
+        "show",
+        "error",
+        "Please select a file before Translate"
+      );
     }
   };
 
@@ -132,7 +144,7 @@ class Dropbox extends React.Component<{}, State> {
       buttonNav,
       snackbarType,
       snackbarMsg,
-      visibility
+      visibility,
     } = this.state;
     return (
       <div className="dropbox-wrapper">
@@ -159,7 +171,9 @@ class Dropbox extends React.Component<{}, State> {
             className="fileinput"
             accept=".csv"
             onChange={(e: any) => this.readFile(e)}
-            onClick={(e: any)=> { e.target.value = null }}
+            onClick={(e: any) => {
+              e.target.value = null;
+            }}
           />
 
           <div className={onDrag ? "ondrag-wrapper active" : "ondrag-wrapper"}>
@@ -205,7 +219,11 @@ class Dropbox extends React.Component<{}, State> {
             </div>
           )}
         </div>
-        <Snackbar message={snackbarMsg} type={snackbarType} visibility={visibility}/>
+        <Snackbar
+          message={snackbarMsg}
+          type={snackbarType}
+          visibility={visibility}
+        />
       </div>
     );
   }

@@ -7,6 +7,12 @@ interface Language {
   text: string;
 }
 
+interface Props {
+  sourceLanguage: Language;
+  targetLanguage: Language;
+  onChange: (language: Language, type: string) => void;
+}
+
 interface State {
   sourceLanguage: Language;
   targetLanguage: Language;
@@ -14,10 +20,10 @@ interface State {
   targetLanguages: Language[];
 }
 
-class LanguageSelector extends React.Component<{}, State> {
+class LanguageSelector extends React.Component<Props, State> {
   state: State = {
-    sourceLanguage: { value: "", text: "" },
-    targetLanguage: { value: "", text: "" },
+    sourceLanguage: this.props.sourceLanguage,
+    targetLanguage: this.props.targetLanguage,
     sourceLanguages: [{ value: "EN", text: "English" }],
     targetLanguages: [
       { value: "IT", text: "Italian" },
@@ -25,6 +31,15 @@ class LanguageSelector extends React.Component<{}, State> {
       { value: "SP", text: "Spanish" },
       { value: "FR", text: "French" },
     ],
+  };
+
+  componentDidUpdate = (prevProps: Props) => {
+    if (prevProps !== this.props) {
+      this.setState({
+        sourceLanguage: this.props.sourceLanguage,
+        targetLanguage: this.props.targetLanguage,
+      });
+    }
   };
 
   handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -35,11 +50,7 @@ class LanguageSelector extends React.Component<{}, State> {
       text,
     };
 
-    if (target.name === "sourceLanguage") {
-      this.setState({ sourceLanguage: language });
-    } else if (target.name === "targetLanguage") {
-      this.setState({ targetLanguage: language });
-    }
+    this.props.onChange(language, target.name);
   };
 
   getLanguageName = (code: string, type: string) => {
