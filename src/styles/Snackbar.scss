@@ -7,9 +7,9 @@
     bottom: 30px;
     transform: translateX(-50%);
     background-color: #a9a9a9;
-    color: #212121;
+    color: #323232;
     font-size: 14px;
-    height: 40px;
+    min-height: 40px;
     padding: 11px 16px;
     border-radius: 4px;
     font-family: "Quicksand", sans-serif;
@@ -19,7 +19,7 @@
         animation: fadein 0.5s, fadeout 0.5s 2.5s;
     }
     &.error {
-        background-color: #ff685f;
+        background-color: #E6514A;
     }
     &.success {
         background-color: #b6f7a9;

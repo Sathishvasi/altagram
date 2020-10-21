@@ -80,7 +80,8 @@ class Dropbox extends React.Component<{}, State> {
 
   handleDrop = (e: any) => {
     let fileName = e.dataTransfer && e.dataTransfer.files[0].name;
-    if (fileName.split(".")[1] === "csv") {
+    let extension = fileName.split(".")[1];
+    if (extension === "csv" || extension === "xls" || extension === "xlsx") {
       // Condition to show the CSV file info
       this.setState({
         showEnterMessage: false,
@@ -169,7 +170,7 @@ class Dropbox extends React.Component<{}, State> {
             id="fileinput"
             name="fileinput"
             className="fileinput"
-            accept=".csv"
+            accept=".csv, .xls, .xlsx"
             onChange={(e: any) => this.readFile(e)}
             onClick={(e: any) => {
               e.target.value = null;
@@ -185,7 +186,7 @@ class Dropbox extends React.Component<{}, State> {
               <div className="upload-container">
                 <img src={uploadIcon} alt="Upload icon" />
                 <h6>Drop source files here</h6>
-                <p>Supported file type: .csv</p>
+                <p>Supported file type: .csv, .xls, .xlsx</p>
               </div>
             </label>
           ) : (
