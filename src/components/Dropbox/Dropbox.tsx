@@ -9,7 +9,10 @@ interface State {
   showEnterMessage: Boolean;
   uploadFailed: Boolean;
   uploading: Boolean;
-  fileName: string;
+  fileName?: string;
+  file?: File;
+  snackbarMsg: string;
+  snackbarType: string;
   modifiedDate: string;
   onDrag: Boolean;
   buttonNav: Boolean;
@@ -17,19 +20,25 @@ interface State {
 }
 
 interface Props {
+  file?: File;
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
+  onChange: (fileName: File) => void;
+  onDelete: () => void;
 }
 
-class Dropbox extends Component<Props, State> {
+class Dropbox extends React.Component<Props, State> {
   state: State = {
     showEnterMessage: true,
     uploadFailed: false,
     uploading: false,
     fileName: "",
+    snackbarMsg: "",
+    snackbarType: "",
     modifiedDate: "",
     onDrag: false,
     buttonNav: true,
     visibility: "",
+    file: new File([], ""),
   };
 
   componentDidMount() {
@@ -89,6 +98,14 @@ class Dropbox extends Component<Props, State> {
     e.stopPropagation();
   };
 
+  componentDidUpdate = (prevProps: Props) => {
+    if (prevProps !== this.props) {
+      this.setState({
+        file: this.props.file,
+      });
+    }
+  };
+
   readFile = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       /*Snippet to get file URL*/
@@ -98,10 +115,25 @@ class Dropbox extends Component<Props, State> {
       //};
       //reader.readAsDataURL(event.target.files[0]);
 
-      let fileInfo = event.target.files[0];
+      const fileInfo = event.target.files[0];
       console.log(fileInfo.name);
-      this.setState({ fileName: fileInfo.name, showEnterMessage: false });
+      this.setState({
+        fileName: fileInfo.name,
+        showEnterMessage: false,
+        file: fileInfo,
+      });
+
+      this.props.onChange(fileInfo);
     }
+  };
+  handleDeleteFile = () => {
+    this.setState({
+      showEnterMessage: true,
+      buttonNav: true,
+      file: new File([], ""),
+    });
+
+    this.props.onDelete();
   };
 
   translateFile = () => {
@@ -176,12 +208,7 @@ class Dropbox extends Component<Props, State> {
                 <img
                   src={trashIcon}
                   alt="Trash icon"
-                  onClick={(e) =>
-                    this.setState({
-                      showEnterMessage: true,
-                      buttonNav: true,
-                    })
-                  }
+                  onClick={this.handleDeleteFile}
                 />
               </div>
             )

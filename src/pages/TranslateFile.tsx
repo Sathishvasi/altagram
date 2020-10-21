@@ -14,12 +14,14 @@ type Props = {
 type State = {
   sourceLanguage: Language;
   targetLanguage: Language;
+  file: File;
 };
 
 class TranslateFile extends React.Component<Props, State> {
   state: State = {
     sourceLanguage: { value: "", text: "" },
     targetLanguage: { value: "", text: "" },
+    file: new File([], ""),
   };
 
   handleLanguageChange = (language: Language, type: string) => {
@@ -30,6 +32,18 @@ class TranslateFile extends React.Component<Props, State> {
     }
   };
 
+  handleFileChange = (file: File) => {
+    this.setState({
+      file: file,
+    });
+  };
+
+  handleDeleteFile = () => {
+    this.setState({
+      file: new File([], ""),
+    });
+  };
+
   render() {
     return (
       <div>
@@ -38,7 +52,11 @@ class TranslateFile extends React.Component<Props, State> {
           targetLanguage={this.state.targetLanguage}
           onChange={this.handleLanguageChange}
         />
-        <Dropbox showAlert={this.props.showAlert} />
+        <Dropbox
+          onChange={this.handleFileChange}
+          onDelete={this.handleDeleteFile}
+          showAlert={this.props.showAlert}
+        />
       </div>
     );
   }
