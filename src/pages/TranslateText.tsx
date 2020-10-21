@@ -8,6 +8,10 @@ interface Language {
   text: string;
 }
 
+type Props = {
+  showAlert: (alertMessage: string, alertType: "success" | "error") => void;
+};
+
 type State = {
   inputText: string;
   outputText: string;
@@ -15,13 +19,17 @@ type State = {
   targetLanguage: Language;
 };
 
-class TranslateText extends React.Component<{}, State> {
+class TranslateText extends React.Component<Props, State> {
   state: State = {
     inputText: "",
     outputText: "",
     sourceLanguage: { value: "", text: "" },
     targetLanguage: { value: "", text: "" },
   };
+
+  componentDidMount() {
+    this.props.showAlert("sdf", "success");
+  }
 
   handleLanguageChange = (language: Language, type: string) => {
     if (type === "sourceLanguage") {

@@ -1,0 +1,33 @@
+.alert {
+  text-align: center;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  background-color: #a9a9a9;
+  color: #323232;
+  font-size: 14px;
+  min-height: 40px;
+  padding: 11px 16px;
+  border-radius: 4px;
+  font-family: "Quicksand", sans-serif;
+  animation: fadein 0.5s;
+
+  &.error {
+    background-color: #e6514a;
+  }
+
+  &.success {
+    background-color: #b6f7a9;
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

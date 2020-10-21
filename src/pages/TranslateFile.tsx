@@ -7,12 +7,16 @@ interface Language {
   text: string;
 }
 
+type Props = {
+  showAlert: (alertMessage: string, alertType: "success" | "error") => void;
+};
+
 type State = {
   sourceLanguage: Language;
   targetLanguage: Language;
 };
 
-class TranslateFile extends React.Component<{}, State> {
+class TranslateFile extends React.Component<Props, State> {
   state: State = {
     sourceLanguage: { value: "", text: "" },
     targetLanguage: { value: "", text: "" },
@@ -34,7 +38,7 @@ class TranslateFile extends React.Component<{}, State> {
           targetLanguage={this.state.targetLanguage}
           onChange={this.handleLanguageChange}
         />
-        <Dropbox />
+        <Dropbox showAlert={this.props.showAlert} />
       </div>
     );
   }

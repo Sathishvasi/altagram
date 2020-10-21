@@ -1,7 +1,6 @@
-import React, { constructor } from "react";
+import React, { Component } from "react";
 import Button from "components/Button/Button";
 import Label from "components/Label/Label";
-import Snackbar from "components/Snackbar/Snackbar";
 import uploadIcon from "assets/icon-add-file.png";
 import trashIcon from "assets/icon-delete.png";
 import "styles/Dropbox.scss";
@@ -11,22 +10,22 @@ interface State {
   uploadFailed: Boolean;
   uploading: Boolean;
   fileName: string;
-  snackbarMsg: string;
-  snackbarType: string;
   modifiedDate: string;
   onDrag: Boolean;
   buttonNav: Boolean;
   visibility: string;
 }
 
-class Dropbox extends React.Component<{}, State> {
+interface Props {
+  showAlert: (alertMessage: string, alertType: "success" | "error") => void;
+}
+
+class Dropbox extends Component<Props, State> {
   state: State = {
     showEnterMessage: true,
     uploadFailed: false,
     uploading: false,
     fileName: "",
-    snackbarMsg: "",
-    snackbarType: "",
     modifiedDate: "",
     onDrag: false,
     buttonNav: true,
@@ -45,17 +44,6 @@ class Dropbox extends React.Component<{}, State> {
       modifiedDate: modifiedDate,
     });
   }
-
-  showSnackbar = (visibility: string, type: string, msg: string) => {
-    this.setState({
-      snackbarMsg: msg,
-      snackbarType: type,
-      visibility: visibility,
-    });
-    setTimeout(() => {
-      this.setState({ snackbarMsg: "", snackbarType: "", visibility: "" });
-    }, 2000);
-  };
 
   handleDragEnter = (e: any) => {
     this.setState({ showEnterMessage: false, onDrag: true });
@@ -95,7 +83,7 @@ class Dropbox extends React.Component<{}, State> {
         onDrag: false,
       });
 
-      this.showSnackbar("show", "error", "Supported file type: csv");
+      this.props.showAlert("Supported file type: csv", "error");
     }
     e.preventDefault();
     e.stopPropagation();
@@ -119,18 +107,10 @@ class Dropbox extends React.Component<{}, State> {
   translateFile = () => {
     if (!this.state.showEnterMessage) {
       this.setState({ buttonNav: false });
-      this.showSnackbar(
-        "show",
-        "success",
-        "Translation completed successfully"
-      );
+      this.props.showAlert("Translation completed successfully", "success");
     } else {
       this.setState({ buttonNav: true });
-      this.showSnackbar(
-        "show",
-        "error",
-        "Please select a file before Translate"
-      );
+      this.props.showAlert("Please select a file before Translate", "error");
     }
   };
 
@@ -143,9 +123,6 @@ class Dropbox extends React.Component<{}, State> {
       fileName,
       modifiedDate,
       buttonNav,
-      snackbarType,
-      snackbarMsg,
-      visibility,
     } = this.state;
     return (
       <div className="dropbox-wrapper">
@@ -220,11 +197,6 @@ class Dropbox extends React.Component<{}, State> {
             </div>
           )}
         </div>
-        <Snackbar
-          message={snackbarMsg}
-          type={snackbarType}
-          visibility={visibility}
-        />
       </div>
     );
   }
