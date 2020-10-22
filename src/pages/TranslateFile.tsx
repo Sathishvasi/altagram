@@ -2,7 +2,8 @@ import React from "react";
 import Dropbox from "components/Dropbox/Dropbox";
 import LanguageSelector from "components/LanguageSelector/LanguageSelector";
 import Button from "components/Button/Button";
-
+import FormValidator from "utils/Validator";
+import API from "utils/API";
 
 interface Language {
   value: string;
@@ -18,15 +19,34 @@ type State = {
   targetLanguage: Language;
   file: File;
   buttonNav: Boolean;
+  validation: any;
 };
 
 class TranslateFile extends React.Component<Props, State> {
+  validator: FormValidator = new FormValidator([
+    {
+      field: "sourceLanguage",
+      method: "isEmpty",
+      validWhen: false,
+      message: "Source Language is required.",
+    },
+    {
+      field: "targetLanguage",
+      method: "isEmpty",
+      validWhen: false,
+      message: "Target Language is required.",
+    },
+  ]);
+
   state: State = {
     sourceLanguage: { value: "", text: "" },
     targetLanguage: { value: "", text: "" },
     file: new File([], ""),
-    buttonNav: true
+    buttonNav: true,
+    validation: this.validator.valid(),
   };
+
+  submitted = false;
 
   handleLanguageChange = (language: Language, type: string) => {
     if (type === "sourceLanguage") {
@@ -48,8 +68,41 @@ class TranslateFile extends React.Component<Props, State> {
     });
   };
 
+  handleTranslate = () => {
+    const { file, sourceLanguage, targetLanguage } = this.state;
+    const validation = this.validator.validate(this.state);
+    this.submitted = true;
+
+    this.setState({ validation: validation });
+
+    console.log(typeof file);
+    console.log(file);
+
+    if (file.name === "") {
+      this.props.showAlert("Input File is required", "error");
+      return;
+    }
+
+    if (validation) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("sourceLanguage", sourceLanguage.value);
+      formData.append("targetLanguage", targetLanguage.value);
+      formData.append("env", "dev");
+
+      API.post("/text-to-file", formData)
+        .then((response: any) => {
+          console.log(response);
+          this.props.showAlert("Translation completed successfully", "success");
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+    }
+  };
+
   render() {
-    const {buttonNav} = this.state;
+    const { buttonNav } = this.state;
     return (
       <div>
         <LanguageSelector
@@ -64,7 +117,9 @@ class TranslateFile extends React.Component<Props, State> {
         />
         <div className="btn-wrapper">
           {this.state.buttonNav ? (
-            <Button className="submit-button">Translate</Button>
+            <Button className="submit-button" onClick={this.handleTranslate}>
+              Translate
+            </Button>
           ) : (
             <div>
               <Button type="secondary">Preview</Button>

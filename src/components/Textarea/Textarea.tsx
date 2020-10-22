@@ -8,6 +8,7 @@ interface TextareaProps {
   label?: string;
   className?: string;
   fullWidth?: boolean;
+  name?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
