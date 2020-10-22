@@ -1,4 +1,5 @@
 import React from "react";
+import API from "utils/API";
 import Button from "components/Button/Button";
 import Textarea from "components/Textarea/Textarea";
 import LanguageSelector from "components/LanguageSelector/LanguageSelector";
@@ -28,7 +29,7 @@ class TranslateText extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.showAlert("sdf", "success");
+    API.get("/text-to-text");
   }
 
   handleLanguageChange = (language: Language, type: string) => {
