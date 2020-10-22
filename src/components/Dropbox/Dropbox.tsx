@@ -214,7 +214,7 @@ class Dropbox extends React.Component<Props, State> {
             )
           )}
         </div>
-        <div className="btn-wrapper">
+        {/* <div className="btn-wrapper">
           {buttonNav ? (
             <Button onClick={this.translateFile}>Translate</Button>
           ) : (
@@ -223,7 +223,7 @@ class Dropbox extends React.Component<Props, State> {
               <Button>Download</Button>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     );
   }
