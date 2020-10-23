@@ -83,6 +83,9 @@ class TranslateText extends React.Component<Props, State> {
         .then((response: any) => {
           console.log(response);
           this.props.showAlert("Translation completed successfully", "success");
+          this.setState({
+            outputText: response.data.translated,
+          });
         })
         .catch((error: any) => {
           console.log(error);

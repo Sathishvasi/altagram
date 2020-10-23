@@ -88,7 +88,7 @@ class TranslateFile extends React.Component<Props, State> {
       formData.append("file", file);
       formData.append("sourceLanguage", sourceLanguage.value);
       formData.append("targetLanguage", targetLanguage.value);
-      formData.append("env", "dev");
+      formData.append("env", "staging");
 
       API.post("/text-to-file", formData)
         .then((response: any) => {
