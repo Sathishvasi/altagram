@@ -78,7 +78,7 @@ class TranslateText extends React.Component<Props, State> {
         data: inputText,
         sourceLanguage: sourceLanguage.value,
         targetLanguage: targetLanguage.value,
-        env: "dev",
+        env: "staging",
       })
         .then((response: any) => {
           console.log(response);

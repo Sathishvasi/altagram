@@ -26,10 +26,10 @@ class LanguageSelector extends React.Component<Props, State> {
     targetLanguage: this.props.targetLanguage,
     sourceLanguages: [{ value: "EN", text: "English" }],
     targetLanguages: [
-      { value: "IT", text: "Italian" },
-      { value: "GE", text: "German" },
-      { value: "SP", text: "Spanish" },
+      { value: "DE", text: "German" },
       { value: "FR", text: "French" },
+      { value: "IT", text: "Italian" },
+      { value: "SP", text: "Spanish" },
     ],
   };
 
