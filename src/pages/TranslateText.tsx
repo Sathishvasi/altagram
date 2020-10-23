@@ -21,6 +21,7 @@ type State = {
   sourceLanguage: Language;
   targetLanguage: Language;
   validation: any;
+  isLoading: boolean;
 };
 
 class TranslateText extends React.Component<Props, State> {
@@ -51,12 +52,10 @@ class TranslateText extends React.Component<Props, State> {
     sourceLanguage: { value: "", text: "" },
     targetLanguage: { value: "", text: "" },
     validation: this.validator.valid(),
+    isLoading: false,
   };
 
   submitted = false;
-  // componentDidMount() {
-  //   API.get("/text-to-text");
-  // }
 
   handleLanguageChange = (language: Language, type: string) => {
     if (type === "sourceLanguage") {
@@ -71,7 +70,7 @@ class TranslateText extends React.Component<Props, State> {
     const validation = this.validator.validate(this.state);
     this.submitted = true;
 
-    this.setState({ validation: validation });
+    this.setState({ validation: validation, isLoading: true });
 
     if (validation) {
       API.post("/text-to-text", {
@@ -81,14 +80,16 @@ class TranslateText extends React.Component<Props, State> {
         env: "staging",
       })
         .then((response: any) => {
-          console.log(response);
           this.props.showAlert("Translation completed successfully", "success");
+
           this.setState({
             outputText: response.data.translated,
+            isLoading: false,
           });
         })
         .catch((error: any) => {
           console.log(error);
+          this.setState({ isLoading: false });
         });
     }
   };
@@ -97,6 +98,7 @@ class TranslateText extends React.Component<Props, State> {
     let validation = this.submitted
       ? this.validator.validate(this.state)
       : this.state.validation;
+
     return (
       <div>
         <LanguageSelector
@@ -126,8 +128,12 @@ class TranslateText extends React.Component<Props, State> {
           </div>
         </div>
 
-        <Button className="submit-button" onClick={this.handleTranslate}>
-          Translate
+        <Button
+          className="submit-button"
+          onClick={this.handleTranslate}
+          disabled={this.state.isLoading ? true : false}
+        >
+          {this.state.isLoading ? "Translating" : "Translate"}
         </Button>
       </div>
     );

@@ -5,6 +5,7 @@ interface ButtonProps {
   children: string;
   className?: string;
   type?: "primary" | "secondary";
+  disabled?: boolean;
   onClick?: () => void;
 }
 
@@ -17,6 +18,7 @@ function Button(props: ButtonProps) {
         (props.type ? props.type : "primary")
       }
       onClick={props.onClick}
+      disabled={props.disabled ? true : false}
     >
       {props.children}
     </button>
