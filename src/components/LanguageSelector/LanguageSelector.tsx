@@ -60,11 +60,10 @@ class LanguageSelector extends React.Component<Props, State> {
 
   handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const target = e.target;
-    // const text = this.getLanguageName(e.target.value, target.name);
-
     this.props.onChange(target.value, target.name);
   };
 
+  //get language name from value
   getLanguageName = (code: string, type: string) => {
     const { sourceLanguages, targetLanguages } = this.state;
     let languages;
