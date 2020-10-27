@@ -96,7 +96,11 @@ class TranslateFile extends React.Component<Props, State> {
           this.props.showAlert("Translation completed successfully", "success");
           this.setState({ isLoading: false });
 
-          console.log(new Buffer([response.data]));
+          console.log(
+            new Blob([JSON.stringify(response.data)], {
+              type: "application/json",
+            })
+          );
           const url = window.URL.createObjectURL(
             new Blob([JSON.stringify(response.data)], {
               type: "application/json",
