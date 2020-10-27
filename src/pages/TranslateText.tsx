@@ -29,19 +29,19 @@ class TranslateText extends React.Component<Props, State> {
       field: "inputText",
       method: "isEmpty",
       validWhen: false,
-      message: "Input Text is required",
+      message: "Input text is required",
     },
     {
       field: "sourceLanguage",
       method: "isEmpty",
       validWhen: false,
-      message: "Source Language is required.",
+      message: "Source language is required.",
     },
     {
       field: "targetLanguage",
       method: "isEmpty",
       validWhen: false,
-      message: "Target Language is required.",
+      message: "Target language is required.",
     },
   ]);
 
@@ -67,15 +67,24 @@ class TranslateText extends React.Component<Props, State> {
   handleTranslate = () => {
     const { inputText, sourceLanguage, targetLanguage } = this.state;
     const validation = this.validator.validate(this.state);
+
     this.submitted = true;
+
     this.setState({ validation: validation, isLoading: true });
+
     if (validation.isValid) {
-      API.post("/text-to-text", {
-        data: inputText,
-        sourceLanguage: sourceLanguage,
-        targetLanguage: targetLanguage,
-        env: "staging",
-      })
+      API.post(
+        "/text-to-text",
+        {
+          data: inputText,
+          sourceLanguage: sourceLanguage,
+          targetLanguage: targetLanguage,
+          env: "staging",
+        },
+        {
+          responseType: "json",
+        }
+      )
         .then((response: any) => {
           this.props.showAlert("Translation completed successfully", "success");
 
@@ -90,6 +99,7 @@ class TranslateText extends React.Component<Props, State> {
             "Something went wrong. Please try again.",
             "error"
           );
+
           this.setState({ isLoading: false });
         });
     }

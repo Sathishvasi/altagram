@@ -29,13 +29,13 @@ class TranslateFile extends React.Component<Props, State> {
       field: "sourceLanguage",
       method: "isEmpty",
       validWhen: false,
-      message: "Source Language is required.",
+      message: "Source language is required.",
     },
     {
       field: "targetLanguage",
       method: "isEmpty",
       validWhen: false,
-      message: "Target Language is required.",
+      message: "Target language is required.",
     },
   ]);
 
@@ -90,22 +90,21 @@ class TranslateFile extends React.Component<Props, State> {
       formData.append("targetLanguage", targetLanguage);
       formData.append("env", "staging");
 
-      API.post("/file-to-file", formData)
+      API.post("/file-to-file", formData, {
+        responseType: "blob",
+      })
         .then((response: any) => {
-          console.log(response);
           this.props.showAlert("Translation completed successfully", "success");
           this.setState({ isLoading: false });
 
-          console.log(
-            new Blob([JSON.stringify(response.data)], {
-              type: "application/json",
-            })
-          );
-          const url = window.URL.createObjectURL(
-            new Blob([JSON.stringify(response.data)], {
-              type: "application/json",
-            })
-          );
+          let blob = new Blob([response.data], {
+              type:
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            }),
+            url = window.URL.createObjectURL(blob);
+
+          // window.open(url);
+
           const link = document.createElement("a");
           link.href = url;
           link.setAttribute("download", file.name);
