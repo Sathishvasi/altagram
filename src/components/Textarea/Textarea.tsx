@@ -1,3 +1,8 @@
+/*
+ *  Textarea component to display the text for translation
+ *
+ */
+
 import React from "react";
 import "styles/Textarea.scss";
 import Label from "components/Label/Label";

@@ -1,3 +1,8 @@
+/*
+ *  Page to translate a text
+ *
+ */
+
 import React from "react";
 import API from "utils/API";
 import Button from "components/Button/Button";

@@ -1,3 +1,8 @@
+/*
+ *  Language Selector component to select the languages for translation
+ *
+ */
+
 import React from "react";
 import "styles/LanguageSelector.scss";
 import Dropdown from "components/Dropdown/Dropdown";

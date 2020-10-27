@@ -1,3 +1,8 @@
+/*
+ *  Dropdown component used throughout the application
+ *
+ */
+
 import React from "react";
 import "styles/Dropdown.scss";
 import Label from "components/Label/Label";

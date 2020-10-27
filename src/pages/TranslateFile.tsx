@@ -1,3 +1,8 @@
+/*
+ *  Page to translate a file
+ *
+ */
+
 import React from "react";
 import Dropbox from "components/Dropbox/Dropbox";
 import LanguageSelector from "components/LanguageSelector/LanguageSelector";

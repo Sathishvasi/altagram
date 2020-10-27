@@ -1,5 +1,9 @@
+/*
+ *  Dropbox component to upload the file to be translated
+ *
+ */
+
 import React, { Component } from "react";
-import Button from "components/Button/Button";
 import Label from "components/Label/Label";
 import uploadIcon from "assets/icon-add-file.png";
 import trashIcon from "assets/icon-delete.png";
@@ -108,13 +112,6 @@ class Dropbox extends React.Component<Props, State> {
 
   readFile = (event: any) => {
     if (event.target.files && event.target.files[0]) {
-      /*Snippet to get file URL*/
-      //let reader = new FileReader();
-      //reader.onload = (e) => {
-      //  console.log(e && e.target ? e.target : '')
-      //};
-      //reader.readAsDataURL(event.target.files[0]);
-
       const fileInfo = event.target.files[0];
       console.log(fileInfo.name);
       this.setState({
@@ -126,6 +123,7 @@ class Dropbox extends React.Component<Props, State> {
       this.props.onChange(fileInfo);
     }
   };
+
   handleDeleteFile = () => {
     this.setState({
       showEnterMessage: true,
@@ -214,16 +212,6 @@ class Dropbox extends React.Component<Props, State> {
             )
           )}
         </div>
-        {/* <div className="btn-wrapper">
-          {buttonNav ? (
-            <Button onClick={this.translateFile}>Translate</Button>
-          ) : (
-            <div>
-              <Button type="secondary">Preview</Button>
-              <Button>Download</Button>
-            </div>
-          )}
-        </div> */}
       </div>
     );
   }
