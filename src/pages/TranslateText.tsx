@@ -3,13 +3,7 @@ import API from "utils/API";
 import Button from "components/Button/Button";
 import Textarea from "components/Textarea/Textarea";
 import LanguageSelector from "components/LanguageSelector/LanguageSelector";
-import { report } from "process";
 import FormValidator from "utils/Validator";
-
-interface Language {
-  value: string;
-  text: string;
-}
 
 type Props = {
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
@@ -18,8 +12,8 @@ type Props = {
 type State = {
   inputText: string;
   outputText: string;
-  sourceLanguage: Language;
-  targetLanguage: Language;
+  sourceLanguage: string;
+  targetLanguage: string;
   validation: any;
   isLoading: boolean;
 };
@@ -49,15 +43,15 @@ class TranslateText extends React.Component<Props, State> {
   state: State = {
     inputText: "",
     outputText: "",
-    sourceLanguage: { value: "", text: "" },
-    targetLanguage: { value: "", text: "" },
+    sourceLanguage: "",
+    targetLanguage: "",
     validation: this.validator.valid(),
     isLoading: false,
   };
 
   submitted = false;
 
-  handleLanguageChange = (language: Language, type: string) => {
+  handleLanguageChange = (language: string, type: string) => {
     if (type === "sourceLanguage") {
       this.setState({ sourceLanguage: language });
     } else if (type === "targetLanguage") {
@@ -70,13 +64,13 @@ class TranslateText extends React.Component<Props, State> {
     const validation = this.validator.validate(this.state);
     this.submitted = true;
 
-    this.setState({ validation: validation, isLoading: true });
-
     if (validation) {
+      this.setState({ validation: validation, isLoading: true });
+
       API.post("/text-to-text", {
         data: inputText,
-        sourceLanguage: sourceLanguage.value,
-        targetLanguage: targetLanguage.value,
+        sourceLanguage: sourceLanguage,
+        targetLanguage: targetLanguage,
         env: "staging",
       })
         .then((response: any) => {
@@ -104,6 +98,16 @@ class TranslateText extends React.Component<Props, State> {
         <LanguageSelector
           sourceLanguage={this.state.sourceLanguage}
           targetLanguage={this.state.targetLanguage}
+          sourceLanguageError={
+            validation.sourceLanguage.isInvalid
+              ? validation.sourceLanguage.message
+              : ""
+          }
+          targetLanguageError={
+            validation.targetLanguage.isInvalid
+              ? validation.targetLanguage.message
+              : ""
+          }
           onChange={this.handleLanguageChange}
         />
         <div className="text-inputs">
@@ -114,9 +118,14 @@ class TranslateText extends React.Component<Props, State> {
               onChange={(e) => this.setState({ inputText: e.target.value })}
               fullWidth
               name="inputText"
-              className={validation.inputText.isInvalid && "has-error"}
+              hasError={validation.inputText.isInvalid}
+              errorMessage={
+                validation.inputText.isInvalid
+                  ? validation.inputText.message
+                  : ""
+              }
             ></Textarea>
-            <span className="help-block">{validation.inputText.message}</span>
+            {/* <span className="help-block">{validation.inputText.message}</span> */}
           </div>
           <div className="column">
             <Textarea

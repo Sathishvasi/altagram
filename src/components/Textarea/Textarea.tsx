@@ -9,6 +9,8 @@ interface TextareaProps {
   className?: string;
   fullWidth?: boolean;
   name?: string;
+  hasError?: boolean;
+  errorMessage?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -25,18 +27,26 @@ function Textarea(props: TextareaProps) {
     <div
       className={
         "mt-textarea " +
-        (props.className ? props.className + " " : "") +
-        (props.fullWidth ? "full-width " : "")
+        (props.hasError ? "has-error " : "") +
+        (props.fullWidth ? "full-width " : "") +
+        (props.className ? props.className : "")
       }
     >
-      {props.label && <Label>{props.label}</Label>}
+      {props.label && (
+        <Label className={props.hasError ? "has-error" : ""}>
+          {props.label}
+        </Label>
+      )}
       <textarea
         onChange={props.onChange}
         value={props.value ? props.value : ""}
         placeholder={props.placeholder ? props.placeholder : ""}
         maxLength={maxLength}
       ></textarea>
-      <label className="counter">{getCounterText()}</label>
+      {props.hasError && props.errorMessage && (
+        <Label className="help-text has-error">{props.errorMessage}</Label>
+      )}
+      <Label className="counter">{getCounterText()}</Label>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { getToken } from "services/TokenService";
 //create an axios instance for the whole application
 const instance = axios.create({
   baseURL: "http://167.99.139.119:8080/",
-  responseType: "json",
+  responseType: "json" | "blob",
   timeout: 60000,
 });
 

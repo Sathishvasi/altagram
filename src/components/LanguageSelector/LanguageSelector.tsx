@@ -8,22 +8,32 @@ interface Language {
 }
 
 interface Props {
-  sourceLanguage: Language;
-  targetLanguage: Language;
-  onChange: (language: Language, type: string) => void;
+  sourceLanguage: string;
+  targetLanguage: string;
+  sourceLanguageError?: string;
+  targetLanguageError?: string;
+  onChange: (language: string, type: string) => void;
 }
 
 interface State {
-  sourceLanguage: Language;
-  targetLanguage: Language;
+  sourceLanguage: string;
+  targetLanguage: string;
   sourceLanguages: Language[];
   targetLanguages: Language[];
+  sourceLanguageError?: string;
+  targetLanguageError?: string;
 }
 
 class LanguageSelector extends React.Component<Props, State> {
   state: State = {
     sourceLanguage: this.props.sourceLanguage,
     targetLanguage: this.props.targetLanguage,
+    sourceLanguageError: this.props.sourceLanguageError
+      ? this.props.sourceLanguageError
+      : "",
+    targetLanguageError: this.props.targetLanguageError
+      ? this.props.targetLanguageError
+      : "",
     sourceLanguages: [{ value: "EN", text: "English" }],
     targetLanguages: [
       { value: "DE", text: "German" },
@@ -38,19 +48,21 @@ class LanguageSelector extends React.Component<Props, State> {
       this.setState({
         sourceLanguage: this.props.sourceLanguage,
         targetLanguage: this.props.targetLanguage,
+        sourceLanguageError: this.props.sourceLanguageError
+          ? this.props.sourceLanguageError
+          : "",
+        targetLanguageError: this.props.targetLanguageError
+          ? this.props.targetLanguageError
+          : "",
       });
     }
   };
 
   handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const target = e.target;
-    const text = this.getLanguageName(e.target.value, target.name);
-    const language = {
-      value: e.target.value,
-      text,
-    };
+    // const text = this.getLanguageName(e.target.value, target.name);
 
-    this.props.onChange(language, target.name);
+    this.props.onChange(target.value, target.name);
   };
 
   getLanguageName = (code: string, type: string) => {
@@ -80,6 +92,8 @@ class LanguageSelector extends React.Component<Props, State> {
       targetLanguage,
       sourceLanguages,
       targetLanguages,
+      targetLanguageError,
+      sourceLanguageError,
     } = this.state;
 
     return (
@@ -89,8 +103,10 @@ class LanguageSelector extends React.Component<Props, State> {
           label="Source language"
           placeholder="Select source language"
           name="sourceLanguage"
-          value={sourceLanguage.value}
+          value={sourceLanguage}
           items={sourceLanguages}
+          hasError={sourceLanguageError ? true : false}
+          errorMessage={sourceLanguageError ? sourceLanguageError : ""}
           onChange={this.handleChange}
         ></Dropdown>
         <Dropdown
@@ -98,8 +114,10 @@ class LanguageSelector extends React.Component<Props, State> {
           label="Target language"
           placeholder="Select target language"
           name="targetLanguage"
-          value={targetLanguage.value}
+          value={targetLanguage}
           items={targetLanguages}
+          hasError={targetLanguageError ? true : false}
+          errorMessage={targetLanguageError ? targetLanguageError : ""}
           onChange={this.handleChange}
         ></Dropdown>
 
@@ -107,13 +125,17 @@ class LanguageSelector extends React.Component<Props, State> {
           <h5 className="language__view-text">
             Source Language:&nbsp;
             <span className="language-text">
-              {sourceLanguage.value ? sourceLanguage.text : "not selected"}
+              {sourceLanguage
+                ? this.getLanguageName(sourceLanguage, "sourceLanguage")
+                : "not selected"}
             </span>
           </h5>
           <h5 className="language__view-text">
             Target Language:&nbsp;
             <span className="language-text">
-              {targetLanguage.value ? targetLanguage.text : "not selected"}
+              {targetLanguage
+                ? this.getLanguageName(targetLanguage, "targetLanguage")
+                : "not selected"}
             </span>
           </h5>
         </div>

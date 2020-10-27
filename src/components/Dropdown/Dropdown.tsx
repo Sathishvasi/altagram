@@ -14,13 +14,25 @@ interface DropdownProps {
   label?: string;
   className?: string;
   name?: string;
+  hasError?: boolean;
+  errorMessage?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 function Dropdown(props: DropdownProps) {
   return (
-    <div className={"mt-dropdown " + (props.className ? props.className : "")}>
-      {props.label && <Label>{props.label}</Label>}
+    <div
+      className={
+        "mt-dropdown " +
+        (props.hasError ? "has-error " : "") +
+        (props.className ? props.className : "")
+      }
+    >
+      {props.label && (
+        <Label className={props.hasError ? "has-error" : ""}>
+          {props.label}
+        </Label>
+      )}
       <div className="mt-dropdown__container">
         <select
           required
@@ -40,6 +52,9 @@ function Dropdown(props: DropdownProps) {
             ))}
         </select>
       </div>
+      {props.hasError && props.errorMessage && (
+        <Label className="help-text has-error">{props.errorMessage}</Label>
+      )}
     </div>
   );
 }

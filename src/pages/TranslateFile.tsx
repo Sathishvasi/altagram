@@ -5,21 +5,17 @@ import Button from "components/Button/Button";
 import FormValidator from "utils/Validator";
 import API from "utils/API";
 
-interface Language {
-  value: string;
-  text: string;
-}
-
 type Props = {
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
 };
 
 type State = {
-  sourceLanguage: Language;
-  targetLanguage: Language;
+  sourceLanguage: string;
+  targetLanguage: string;
   file: File;
   buttonNav: Boolean;
   validation: any;
+  isLoading: boolean;
 };
 
 class TranslateFile extends React.Component<Props, State> {
@@ -39,16 +35,17 @@ class TranslateFile extends React.Component<Props, State> {
   ]);
 
   state: State = {
-    sourceLanguage: { value: "", text: "" },
-    targetLanguage: { value: "", text: "" },
+    sourceLanguage: "",
+    targetLanguage: "",
     file: new File([], ""),
     buttonNav: true,
     validation: this.validator.valid(),
+    isLoading: false,
   };
 
   submitted = false;
 
-  handleLanguageChange = (language: Language, type: string) => {
+  handleLanguageChange = (language: string, type: string) => {
     if (type === "sourceLanguage") {
       this.setState({ sourceLanguage: language });
     } else if (type === "targetLanguage") {
@@ -71,12 +68,8 @@ class TranslateFile extends React.Component<Props, State> {
   handleTranslate = () => {
     const { file, sourceLanguage, targetLanguage } = this.state;
     const validation = this.validator.validate(this.state);
+
     this.submitted = true;
-
-    this.setState({ validation: validation });
-
-    console.log(typeof file);
-    console.log(file);
 
     if (file.name === "") {
       this.props.showAlert("Input File is required", "error");
@@ -84,30 +77,54 @@ class TranslateFile extends React.Component<Props, State> {
     }
 
     if (validation) {
+      this.setState({ validation: validation, isLoading: true });
       const formData = new FormData();
+
       formData.append("file", file);
-      formData.append("sourceLanguage", sourceLanguage.value);
-      formData.append("targetLanguage", targetLanguage.value);
+      formData.append("sourceLanguage", sourceLanguage);
+      formData.append("targetLanguage", targetLanguage);
       formData.append("env", "staging");
 
       API.post("/file-to-file", formData)
         .then((response: any) => {
           console.log(response);
           this.props.showAlert("Translation completed successfully", "success");
+          this.setState({ isLoading: false });
+
+          const url = window.URL.createObjectURL(new Buffer([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", file.name);
+          document.body.appendChild(link);
+          link.click();
         })
         .catch((error: any) => {
           console.log(error);
+          this.setState({ isLoading: false });
         });
     }
   };
 
   render() {
-    const { buttonNav } = this.state;
+    let validation = this.submitted
+      ? this.validator.validate(this.state)
+      : this.state.validation;
+
     return (
       <div>
         <LanguageSelector
           sourceLanguage={this.state.sourceLanguage}
           targetLanguage={this.state.targetLanguage}
+          sourceLanguageError={
+            validation.sourceLanguage.isInvalid
+              ? validation.sourceLanguage.message
+              : ""
+          }
+          targetLanguageError={
+            validation.targetLanguage.isInvalid
+              ? validation.targetLanguage.message
+              : ""
+          }
           onChange={this.handleLanguageChange}
         />
         <Dropbox
@@ -117,8 +134,12 @@ class TranslateFile extends React.Component<Props, State> {
         />
         <div className="btn-wrapper">
           {this.state.buttonNav ? (
-            <Button className="submit-button" onClick={this.handleTranslate}>
-              Translate
+            <Button
+              className="submit-button"
+              onClick={this.handleTranslate}
+              disabled={this.state.isLoading ? true : false}
+            >
+              {this.state.isLoading ? "Translating" : "Translate"}
             </Button>
           ) : (
             <div>
