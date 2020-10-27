@@ -21,6 +21,7 @@ type State = {
   buttonNav: Boolean;
   validation: any;
   isLoading: boolean;
+  responseFile: Blob;
 };
 
 class TranslateFile extends React.Component<Props, State> {
@@ -46,6 +47,7 @@ class TranslateFile extends React.Component<Props, State> {
     buttonNav: true,
     validation: this.validator.valid(),
     isLoading: false,
+    responseFile: new Blob(),
   };
 
   submitted = false;
@@ -95,21 +97,15 @@ class TranslateFile extends React.Component<Props, State> {
       })
         .then((response: any) => {
           this.props.showAlert("Translation completed successfully", "success");
-          this.setState({ isLoading: false });
-
           let blob = new Blob([response.data], {
-              type:
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            }),
-            url = window.URL.createObjectURL(blob);
-
-          // window.open(url);
-
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", file.name);
-          document.body.appendChild(link);
-          link.click();
+            type:
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          this.setState({
+            isLoading: false,
+            buttonNav: false,
+            responseFile: blob,
+          });
         })
         .catch((error: any) => {
           console.log(error);
@@ -120,6 +116,16 @@ class TranslateFile extends React.Component<Props, State> {
           this.setState({ isLoading: false });
         });
     }
+  };
+
+  handleClick = () => {
+    const { responseFile, file } = this.state;
+    let url = window.URL.createObjectURL(responseFile);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "translated_" + file.name);
+    document.body.appendChild(link);
+    link.click();
   };
 
   render() {
@@ -161,7 +167,7 @@ class TranslateFile extends React.Component<Props, State> {
           ) : (
             <div>
               <Button type="secondary">Preview</Button>
-              <Button>Download</Button>
+              <Button onClick={this.handleClick}>Download</Button>
             </div>
           )}
         </div>
