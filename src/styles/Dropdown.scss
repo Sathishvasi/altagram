@@ -62,9 +62,12 @@
   .help-text {
     margin-top: 5px;
     margin-left: 10px;
+    position: absolute;
   }
 
   &.has-error {
+    margin-bottom: 20px;
+
     .mt-dropdown__container {
       &:after {
         border-top-color: #e6514a;
