@@ -28,26 +28,4 @@ instance.interceptors.request.use(
   }
 );
 
-//use axios interceptor to handle api errors
-// instance.interceptors.response.use(
-//   function (response) {
-//     return response;
-//   },
-//   function (error) {
-//     if (error.response) {
-//       if (error.response.status === 401) {
-//         //access token expired
-//         //call refresh api
-//         refreshAccessToken();
-//       } else if (error.response.status === 403) {
-//         //refresh token expired
-//         clearToken();
-//         history.push("/login");
-//       }
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
-
 export default instance;

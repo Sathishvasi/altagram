@@ -1,3 +1,8 @@
+/*
+ *  Label component
+ *
+ */
+
 import React from "react";
 import "styles/Label.scss";
 

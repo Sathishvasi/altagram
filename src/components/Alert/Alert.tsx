@@ -1,3 +1,8 @@
+/*
+ *  Alert component to show alerts throughout the application
+ *
+ */
+
 import React from "react";
 import "styles/Alert.scss";
 
