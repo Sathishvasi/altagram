@@ -76,7 +76,7 @@ class TranslateFile extends React.Component<Props, State> {
       return;
     }
 
-    if (validation) {
+    if (validation.isValid) {
       this.setState({ validation: validation, isLoading: true });
       const formData = new FormData();
 
@@ -91,7 +91,12 @@ class TranslateFile extends React.Component<Props, State> {
           this.props.showAlert("Translation completed successfully", "success");
           this.setState({ isLoading: false });
 
-          const url = window.URL.createObjectURL(new Buffer([response.data]));
+          console.log(new Buffer([response.data]));
+          const url = window.URL.createObjectURL(
+            new Blob([JSON.stringify(response.data)], {
+              type: "application/json",
+            })
+          );
           const link = document.createElement("a");
           link.href = url;
           link.setAttribute("download", file.name);
