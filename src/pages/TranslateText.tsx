@@ -83,6 +83,10 @@ class TranslateText extends React.Component<Props, State> {
         })
         .catch((error: any) => {
           console.log(error);
+          this.props.showAlert(
+            "Something went wrong. Please try again.",
+            "error"
+          );
           this.setState({ isLoading: false });
         });
     }
