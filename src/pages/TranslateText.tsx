@@ -63,10 +63,8 @@ class TranslateText extends React.Component<Props, State> {
     const { inputText, sourceLanguage, targetLanguage } = this.state;
     const validation = this.validator.validate(this.state);
     this.submitted = true;
-
-    if (validation) {
-      this.setState({ validation: validation, isLoading: true });
-
+    this.setState({ validation: validation, isLoading: true });
+    if (validation.isValid) {
       API.post("/text-to-text", {
         data: inputText,
         sourceLanguage: sourceLanguage,
