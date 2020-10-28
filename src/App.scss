@@ -51,3 +51,13 @@ $padding-default: 25px;
   text-align: right;
   padding-top: 25px;
 }
+
+.preview-container {
+  height: 330px;
+  font-size: 12px;
+  font-family: sans-serif;
+
+  .pg-viewer-wrapper {
+    overflow-y: hidden;
+  }
+}

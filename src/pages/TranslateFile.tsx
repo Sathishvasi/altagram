@@ -10,6 +10,10 @@ import Button from "components/Button/Button";
 import FormValidator from "utils/Validator";
 import API from "utils/API";
 
+const ReactExcelRenderer = require("react-file-viewer");
+const file = "";
+const type = "";
+
 type Props = {
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
 };
@@ -18,10 +22,13 @@ type State = {
   sourceLanguage: string;
   targetLanguage: string;
   file: File;
-  buttonNav: Boolean;
+  extension: string;
+  showTranslateButton: Boolean;
   validation: any;
   isLoading: boolean;
   responseFile: Blob;
+  translatedFile: string;
+  previewMode: Boolean;
 };
 
 class TranslateFile extends React.Component<Props, State> {
@@ -44,10 +51,13 @@ class TranslateFile extends React.Component<Props, State> {
     sourceLanguage: "",
     targetLanguage: "",
     file: new File([], ""),
-    buttonNav: true,
+    extension: "",
+    showTranslateButton: true,
     validation: this.validator.valid(),
     isLoading: false,
     responseFile: new Blob(),
+    translatedFile: "",
+    previewMode: false,
   };
 
   submitted = false;
@@ -83,6 +93,11 @@ class TranslateFile extends React.Component<Props, State> {
       return;
     }
 
+    const extension = (
+      file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length) ||
+      file.name
+    ).toLowerCase();
+
     if (validation.isValid) {
       this.setState({ validation: validation, isLoading: true });
       const formData = new FormData();
@@ -101,10 +116,15 @@ class TranslateFile extends React.Component<Props, State> {
             type:
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           });
+          let url = window.URL.createObjectURL(blob);
+
+          console.log(url);
           this.setState({
             isLoading: false,
-            buttonNav: false,
+            showTranslateButton: false,
             responseFile: blob,
+            translatedFile: url,
+            extension: extension,
           });
         })
         .catch((error: any) => {
@@ -128,6 +148,10 @@ class TranslateFile extends React.Component<Props, State> {
     link.click();
   };
 
+  handlePreview = (previewMode: Boolean) => {
+    this.setState({ previewMode: previewMode });
+  };
+
   render() {
     let validation = this.submitted
       ? this.validator.validate(this.state)
@@ -135,28 +159,40 @@ class TranslateFile extends React.Component<Props, State> {
 
     return (
       <div>
-        <LanguageSelector
-          sourceLanguage={this.state.sourceLanguage}
-          targetLanguage={this.state.targetLanguage}
-          sourceLanguageError={
-            validation.sourceLanguage.isInvalid
-              ? validation.sourceLanguage.message
-              : ""
-          }
-          targetLanguageError={
-            validation.targetLanguage.isInvalid
-              ? validation.targetLanguage.message
-              : ""
-          }
-          onChange={this.handleLanguageChange}
-        />
-        <Dropbox
-          onChange={this.handleFileChange}
-          onDelete={this.handleDeleteFile}
-          showAlert={this.props.showAlert}
-        />
+        {!this.state.previewMode ? (
+          <>
+            <LanguageSelector
+              sourceLanguage={this.state.sourceLanguage}
+              targetLanguage={this.state.targetLanguage}
+              sourceLanguageError={
+                validation.sourceLanguage.isInvalid
+                  ? validation.sourceLanguage.message
+                  : ""
+              }
+              targetLanguageError={
+                validation.targetLanguage.isInvalid
+                  ? validation.targetLanguage.message
+                  : ""
+              }
+              onChange={this.handleLanguageChange}
+            />
+            <Dropbox
+              value={this.state.file}
+              onChange={this.handleFileChange}
+              onDelete={this.handleDeleteFile}
+              showAlert={this.props.showAlert}
+            />
+          </>
+        ) : (
+          <div className="preview-container">
+            <ReactExcelRenderer
+              fileType={this.state.extension}
+              filePath={this.state.translatedFile}
+            />
+          </div>
+        )}
         <div className="btn-wrapper">
-          {this.state.buttonNav ? (
+          {this.state.showTranslateButton ? (
             <Button
               className="submit-button"
               onClick={this.handleTranslate}
@@ -166,7 +202,21 @@ class TranslateFile extends React.Component<Props, State> {
             </Button>
           ) : (
             <div>
-              <Button type="secondary">Preview</Button>
+              {!this.state.previewMode ? (
+                <Button
+                  type="secondary"
+                  onClick={() => this.handlePreview(true)}
+                >
+                  Preview
+                </Button>
+              ) : (
+                <Button
+                  type="secondary"
+                  onClick={() => this.handlePreview(false)}
+                >
+                  Exit Preview
+                </Button>
+              )}
               <Button onClick={this.handleClick}>Download</Button>
             </div>
           )}
