@@ -10,6 +10,10 @@ import Button from "components/Button/Button";
 import FormValidator from "utils/Validator";
 import API from "utils/API";
 
+const ReactExcelRenderer = require("react-file-viewer");
+const file = "";
+const type = "";
+
 type Props = {
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
 };
@@ -22,6 +26,7 @@ type State = {
   validation: any;
   isLoading: boolean;
   responseFile: Blob;
+  translatedFile: string;
 };
 
 class TranslateFile extends React.Component<Props, State> {
@@ -48,6 +53,7 @@ class TranslateFile extends React.Component<Props, State> {
     validation: this.validator.valid(),
     isLoading: false,
     responseFile: new Blob(),
+    translatedFile: "",
   };
 
   submitted = false;
@@ -101,10 +107,14 @@ class TranslateFile extends React.Component<Props, State> {
             type:
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           });
+          let url = window.URL.createObjectURL(blob);
+
+          console.log(url);
           this.setState({
             isLoading: false,
             buttonNav: false,
             responseFile: blob,
+            translatedFile: url,
           });
         })
         .catch((error: any) => {
@@ -168,6 +178,10 @@ class TranslateFile extends React.Component<Props, State> {
             <div>
               <Button type="secondary">Preview</Button>
               <Button onClick={this.handleClick}>Download</Button>
+              <ReactExcelRenderer
+                fileType={"xlsx"}
+                filePath={this.state.translatedFile}
+              />
             </div>
           )}
         </div>
