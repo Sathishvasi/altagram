@@ -142,6 +142,7 @@ class Dropbox extends Component<Props, State> {
     this.setState({
       showEnterMessage: true,
       file: new File([], ""),
+      fileName: "",
     });
 
     this.props.onDelete();
@@ -217,6 +218,7 @@ class Dropbox extends Component<Props, State> {
                 <button
                   className="delete-button"
                   disabled={this.state.disabled ? true : false}
+                  onClick={this.handleDeleteFile}
                 >
                   <img src={trashIcon} alt="Trash icon" />
                 </button>
