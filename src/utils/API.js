@@ -4,7 +4,7 @@
  */
 
 import axios from "axios";
-import { getToken } from "services/TokenService";
+import { getToken } from "services/AuthService";
 
 //create an axios instance for the whole application
 const instance = axios.create({

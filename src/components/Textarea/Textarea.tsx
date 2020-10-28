@@ -16,6 +16,7 @@ interface TextareaProps {
   name?: string;
   hasError?: boolean;
   errorMessage?: string;
+  readOnly?: Boolean;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
@@ -48,6 +49,7 @@ function Textarea(props: TextareaProps) {
         value={props.value ? props.value : ""}
         placeholder={props.placeholder ? props.placeholder : ""}
         maxLength={maxLength}
+        readOnly={props.readOnly ? true : false}
       ></textarea>
 
       {props.hasError && props.errorMessage && (

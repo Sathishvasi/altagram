@@ -98,10 +98,22 @@
         font-size: 10px;
       }
 
+      .delete-button {
+        background: none;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        transition: all 0.3s;
+
+        &:disabled {
+          pointer-events: none;
+          opacity: 0.8;
+        }
+      }
+
       img {
         width: auto;
         height: 20px;
-        cursor: pointer;
       }
     }
   }

@@ -6,6 +6,7 @@ import Navbar from "components/Navbar/Navbar";
 import Alert from "components/Alert/Alert";
 import TranslateFile from "pages/TranslateFile";
 import TranslateText from "pages/TranslateText";
+import { setToken, setEnv } from "services/AuthService";
 
 interface State {
   showAlert: boolean;
@@ -18,6 +19,16 @@ class App extends Component<{}, State> {
     showAlert: false,
     alertMessage: "",
     alertType: "success",
+  };
+
+  componentDidMount = () => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const token = urlParams.get("token");
+    const env = urlParams.get("env");
+
+    if (token) setToken(token);
+    if (env) setEnv(env);
   };
 
   showAlert = (alertMessage: string, alertType: "success" | "error") => {

@@ -20,10 +20,12 @@ interface State {
   modifiedDate: string;
   onDrag: Boolean;
   visibility: string;
+  disabled: Boolean;
 }
 
 interface Props {
   value: File;
+  disabled: Boolean;
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
   onChange: (fileName: File) => void;
   onDelete: () => void;
@@ -39,6 +41,7 @@ class Dropbox extends Component<Props, State> {
     snackbarType: "",
     modifiedDate: "",
     onDrag: false,
+    disabled: this.props.disabled,
     visibility: "",
     file: this.props.value,
   };
@@ -57,6 +60,7 @@ class Dropbox extends Component<Props, State> {
     if (prevProps !== this.props) {
       this.setState({
         file: this.props.value,
+        disabled: this.props.disabled,
       });
     }
   };
@@ -210,11 +214,12 @@ class Dropbox extends Component<Props, State> {
                   <p className="file-info__name">{fileName}</p>
                   <p className="file-info__date">Uploaded on {modifiedDate}</p>
                 </div>
-                <img
-                  src={trashIcon}
-                  alt="Trash icon"
-                  onClick={this.handleDeleteFile}
-                />
+                <button
+                  className="delete-button"
+                  disabled={this.state.disabled ? true : false}
+                >
+                  <img src={trashIcon} alt="Trash icon" />
+                </button>
               </div>
             )
           )}

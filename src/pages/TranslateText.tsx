@@ -9,6 +9,7 @@ import Button from "components/Button/Button";
 import Textarea from "components/Textarea/Textarea";
 import LanguageSelector from "components/LanguageSelector/LanguageSelector";
 import FormValidator from "utils/Validator";
+import { getEnv } from "services/AuthService";
 
 type Props = {
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
@@ -79,7 +80,7 @@ class TranslateText extends React.Component<Props, State> {
           data: inputText,
           sourceLanguage: sourceLanguage,
           targetLanguage: targetLanguage,
-          env: "staging",
+          env: getEnv(),
         },
         {
           responseType: "json",
@@ -150,6 +151,7 @@ class TranslateText extends React.Component<Props, State> {
               value={this.state.outputText}
               onChange={(e) => this.setState({ outputText: e.target.value })}
               fullWidth
+              readOnly
             ></Textarea>
           </div>
         </div>

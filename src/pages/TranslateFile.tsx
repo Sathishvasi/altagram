@@ -9,6 +9,7 @@ import LanguageSelector from "components/LanguageSelector/LanguageSelector";
 import Button from "components/Button/Button";
 import FormValidator from "utils/Validator";
 import API from "utils/API";
+import { getEnv } from "services/AuthService";
 
 const ReactExcelRenderer = require("react-file-viewer");
 
@@ -106,7 +107,7 @@ class TranslateFile extends React.Component<Props, State> {
       formData.append("file", file);
       formData.append("sourceLanguage", sourceLanguage);
       formData.append("targetLanguage", targetLanguage);
-      formData.append("env", "staging");
+      formData.append("env", getEnv());
 
       API.post("/file-to-file", formData, {
         responseType: "blob",
@@ -180,6 +181,7 @@ class TranslateFile extends React.Component<Props, State> {
             />
             <Dropbox
               value={this.state.file}
+              disabled={this.state.isLoading}
               onChange={this.handleFileChange}
               onDelete={this.handleDeleteFile}
               showAlert={this.props.showAlert}
