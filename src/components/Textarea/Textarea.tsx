@@ -42,12 +42,14 @@ function Textarea(props: TextareaProps) {
           {props.label}
         </Label>
       )}
+
       <textarea
         onChange={props.onChange}
         value={props.value ? props.value : ""}
         placeholder={props.placeholder ? props.placeholder : ""}
         maxLength={maxLength}
       ></textarea>
+
       {props.hasError && props.errorMessage && (
         <Label className="help-text has-error">{props.errorMessage}</Label>
       )}

@@ -14,49 +14,63 @@ interface State {
   uploadFailed: Boolean;
   uploading: Boolean;
   fileName?: string;
-  file?: File;
+  file?: any;
   snackbarMsg: string;
   snackbarType: string;
   modifiedDate: string;
   onDrag: Boolean;
-  buttonNav: Boolean;
   visibility: string;
 }
 
 interface Props {
-  file?: File;
+  value: File;
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
   onChange: (fileName: File) => void;
   onDelete: () => void;
 }
 
-class Dropbox extends React.Component<Props, State> {
+class Dropbox extends Component<Props, State> {
   state: State = {
-    showEnterMessage: true,
+    showEnterMessage: this.props.value.name ? false : true,
     uploadFailed: false,
     uploading: false,
-    fileName: "",
+    fileName: this.props.value.name,
     snackbarMsg: "",
     snackbarType: "",
     modifiedDate: "",
     onDrag: false,
-    buttonNav: true,
     visibility: "",
-    file: new File([], ""),
+    file: this.props.value,
   };
 
   componentDidMount() {
-    let dateObj = new Date();
-    let modifiedDate =
-      dateObj.getDate() +
-      "." +
-      (dateObj.getMonth() + 1) +
-      "." +
-      dateObj.getFullYear().toString().substr(2, 4);
-    this.setState({
-      modifiedDate: modifiedDate,
-    });
+    const { file } = this.state;
+
+    if (file) {
+      this.setState({
+        modifiedDate: this.getFormattedDate(file.lastModifiedDate),
+      });
+    }
   }
+
+  componentDidUpdate = (prevProps: Props) => {
+    if (prevProps !== this.props) {
+      this.setState({
+        file: this.props.value,
+      });
+    }
+  };
+
+  getFormattedDate = (date: Date) => {
+    let modifiedDate =
+      date.getDate() +
+      "." +
+      (date.getMonth() + 1) +
+      "." +
+      date.getFullYear().toString().substr(2, 4);
+
+    return modifiedDate;
+  };
 
   handleDragEnter = (e: any) => {
     this.setState({ showEnterMessage: false, onDrag: true });
@@ -82,6 +96,7 @@ class Dropbox extends React.Component<Props, State> {
   handleDrop = (e: any) => {
     let fileName = e.dataTransfer && e.dataTransfer.files[0].name;
     let extension = fileName.split(".")[1];
+
     if (extension === "csv" || extension === "xls" || extension === "xlsx") {
       // Condition to show the CSV file info
       this.setState({
@@ -98,24 +113,19 @@ class Dropbox extends React.Component<Props, State> {
 
       this.props.showAlert("Supported file type: csv", "error");
     }
+
     e.preventDefault();
     e.stopPropagation();
-  };
-
-  componentDidUpdate = (prevProps: Props) => {
-    if (prevProps !== this.props) {
-      this.setState({
-        file: this.props.file,
-      });
-    }
   };
 
   readFile = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const fileInfo = event.target.files[0];
-      console.log(fileInfo.name);
+      const modifiedDate = this.getFormattedDate(fileInfo.lastModifiedDate);
+
       this.setState({
         fileName: fileInfo.name,
+        modifiedDate: modifiedDate,
         showEnterMessage: false,
         file: fileInfo,
       });
@@ -127,7 +137,6 @@ class Dropbox extends React.Component<Props, State> {
   handleDeleteFile = () => {
     this.setState({
       showEnterMessage: true,
-      buttonNav: true,
       file: new File([], ""),
     });
 
@@ -136,10 +145,8 @@ class Dropbox extends React.Component<Props, State> {
 
   translateFile = () => {
     if (!this.state.showEnterMessage) {
-      this.setState({ buttonNav: false });
       this.props.showAlert("Translation completed successfully", "success");
     } else {
-      this.setState({ buttonNav: true });
       this.props.showAlert("Please select a file before Translate", "error");
     }
   };
@@ -152,8 +159,8 @@ class Dropbox extends React.Component<Props, State> {
       showEnterMessage,
       fileName,
       modifiedDate,
-      buttonNav,
     } = this.state;
+
     return (
       <div className="dropbox-wrapper">
         <Label>Select file*</Label>

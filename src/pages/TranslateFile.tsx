@@ -11,8 +11,6 @@ import FormValidator from "utils/Validator";
 import API from "utils/API";
 
 const ReactExcelRenderer = require("react-file-viewer");
-const file = "";
-const type = "";
 
 type Props = {
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
@@ -79,6 +77,9 @@ class TranslateFile extends React.Component<Props, State> {
   handleDeleteFile = () => {
     this.setState({
       file: new File([], ""),
+      previewMode: false,
+      showTranslateButton: true,
+      translatedFile: "",
     });
   };
 
@@ -140,8 +141,9 @@ class TranslateFile extends React.Component<Props, State> {
 
   handleClick = () => {
     const { responseFile, file } = this.state;
-    let url = window.URL.createObjectURL(responseFile);
+    const url = window.URL.createObjectURL(responseFile);
     const link = document.createElement("a");
+
     link.href = url;
     link.setAttribute("download", "translated_" + file.name);
     document.body.appendChild(link);
