@@ -22,6 +22,7 @@ type State = {
   targetLanguage: string;
   validation: any;
   isLoading: boolean;
+  submitted: boolean;
 };
 
 class TranslateText extends React.Component<Props, State> {
@@ -53,9 +54,8 @@ class TranslateText extends React.Component<Props, State> {
     targetLanguage: "",
     validation: this.validator.valid(),
     isLoading: false,
+    submitted: false,
   };
-
-  submitted = false;
 
   handleLanguageChange = (language: string, type: string) => {
     if (type === "sourceLanguage") {
@@ -69,11 +69,11 @@ class TranslateText extends React.Component<Props, State> {
     const { inputText, sourceLanguage, targetLanguage } = this.state;
     const validation = this.validator.validate(this.state);
 
-    this.submitted = true;
-
-    this.setState({ validation: validation, isLoading: true });
+    this.setState({ submitted: true });
 
     if (validation.isValid) {
+      this.setState({ validation: validation, isLoading: true });
+
       API.post(
         "/text-to-text",
         {
@@ -107,7 +107,9 @@ class TranslateText extends React.Component<Props, State> {
   };
 
   render() {
-    let validation = this.submitted
+    const { submitted } = this.state;
+
+    let validation = submitted
       ? this.validator.validate(this.state)
       : this.state.validation;
 

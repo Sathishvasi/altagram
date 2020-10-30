@@ -21,11 +21,15 @@ interface State {
   onDrag: Boolean;
   visibility: string;
   disabled: Boolean;
+  hasError?: Boolean;
+  errorMessage?: string;
 }
 
 interface Props {
   value: File;
   disabled: Boolean;
+  hasError?: Boolean;
+  errorMessage?: string;
   showAlert: (alertMessage: string, alertType: "success" | "error") => void;
   onChange: (fileName: File) => void;
   onDelete: () => void;
@@ -44,6 +48,8 @@ class Dropbox extends Component<Props, State> {
     disabled: this.props.disabled,
     visibility: "",
     file: this.props.value,
+    hasError: this.props.hasError ? this.props.hasError : false,
+    errorMessage: this.props.errorMessage ? this.props.errorMessage : "",
   };
 
   componentDidMount() {
@@ -61,6 +67,8 @@ class Dropbox extends Component<Props, State> {
       this.setState({
         file: this.props.value,
         disabled: this.props.disabled,
+        hasError: this.props.hasError ? this.props.hasError : false,
+        errorMessage: this.props.errorMessage ? this.props.errorMessage : "",
       });
     }
   };
@@ -164,11 +172,13 @@ class Dropbox extends Component<Props, State> {
       showEnterMessage,
       fileName,
       modifiedDate,
+      hasError,
+      errorMessage,
     } = this.state;
 
     return (
-      <div className="dropbox-wrapper">
-        <Label>Select file*</Label>
+      <div className={"dropbox-wrapper " + (hasError ? "has-error" : "")}>
+        <Label className={hasError ? "has-error" : ""}>Select file*</Label>
         <div
           className="dropbox"
           onDrop={(e: any) =>
@@ -226,6 +236,9 @@ class Dropbox extends Component<Props, State> {
             )
           )}
         </div>
+        {hasError && errorMessage && (
+          <Label className="help-text has-error">{errorMessage}</Label>
+        )}
       </div>
     );
   }

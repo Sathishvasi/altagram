@@ -11,7 +11,10 @@ export const getToken = () => {
   const token = localStorage.getItem("token");
 
   if (token) return token;
-  else return "";
+  else {
+    console.log("Token doesn't exist");
+    return "";
+  }
 };
 
 export const setEnv = (env) => {
@@ -22,5 +25,8 @@ export const getEnv = () => {
   const env = localStorage.getItem("env");
 
   if (env) return env;
-  else return "";
+  else {
+    console.log("Env doesn't exist");
+    return "";
+  }
 };

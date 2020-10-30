@@ -28,6 +28,7 @@ type State = {
   responseFile: Blob;
   translatedFile: string;
   previewMode: Boolean;
+  submitted: Boolean;
 };
 
 class TranslateFile extends React.Component<Props, State> {
@@ -44,6 +45,12 @@ class TranslateFile extends React.Component<Props, State> {
       validWhen: false,
       message: "Target language is required.",
     },
+    {
+      field: "file",
+      method: "isEmptyFile",
+      validWhen: false,
+      message: "Input file is required",
+    },
   ]);
 
   state: State = {
@@ -57,9 +64,8 @@ class TranslateFile extends React.Component<Props, State> {
     responseFile: new Blob(),
     translatedFile: "",
     previewMode: false,
+    submitted: false,
   };
-
-  submitted = false;
 
   handleLanguageChange = (language: string, type: string) => {
     if (type === "sourceLanguage") {
@@ -88,10 +94,10 @@ class TranslateFile extends React.Component<Props, State> {
     const { file, sourceLanguage, targetLanguage } = this.state;
     const validation = this.validator.validate(this.state);
 
-    this.submitted = true;
+    this.setState({ submitted: true });
 
     if (file.name === "") {
-      this.props.showAlert("Input File is required", "error");
+      // this.props.showAlert("Input File is required", "error");
       return;
     }
 
@@ -120,7 +126,6 @@ class TranslateFile extends React.Component<Props, State> {
           });
           let url = window.URL.createObjectURL(blob);
 
-          console.log(url);
           this.setState({
             isLoading: false,
             showTranslateButton: false,
@@ -156,7 +161,9 @@ class TranslateFile extends React.Component<Props, State> {
   };
 
   render() {
-    let validation = this.submitted
+    const { submitted } = this.state;
+
+    let validation = submitted
       ? this.validator.validate(this.state)
       : this.state.validation;
 
@@ -182,6 +189,10 @@ class TranslateFile extends React.Component<Props, State> {
             <Dropbox
               value={this.state.file}
               disabled={this.state.isLoading}
+              hasError={validation.file.isInvalid ? true : false}
+              errorMessage={
+                validation.file.isInvalid ? validation.file.message : ""
+              }
               onChange={this.handleFileChange}
               onDelete={this.handleDeleteFile}
               showAlert={this.props.showAlert}

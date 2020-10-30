@@ -16,7 +16,7 @@ interface TextareaProps {
   name?: string;
   hasError?: boolean;
   errorMessage?: string;
-  readOnly?: Boolean;
+  readOnly?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 

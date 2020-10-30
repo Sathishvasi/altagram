@@ -117,4 +117,16 @@
       }
     }
   }
+
+  .help-text {
+    margin-top: 5px;
+    margin-left: 10px;
+    position: absolute;
+  }
+
+  &.has-error {
+    .dropbox {
+      border-color: #e6514a;
+    }
+  }
 }
