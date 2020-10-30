@@ -12,6 +12,7 @@ interface State {
   showAlert: boolean;
   alertMessage: string;
   alertType: "success" | "error";
+  alertDetails: string;
 }
 
 class App extends Component<{}, State> {
@@ -19,6 +20,7 @@ class App extends Component<{}, State> {
     showAlert: false,
     alertMessage: "",
     alertType: "success",
+    alertDetails: "",
   };
 
   componentDidMount = () => {
@@ -31,7 +33,11 @@ class App extends Component<{}, State> {
     if (env) setEnv(env);
   };
 
-  showAlert = (alertMessage: string, alertType: "success" | "error") => {
+  showAlert = (
+    alertMessage: string,
+    alertType: "success" | "error",
+    alertDetails?: string
+  ) => {
     if (!alertMessage) return;
 
     this.hideAlert();
@@ -40,11 +46,8 @@ class App extends Component<{}, State> {
       showAlert: true,
       alertMessage,
       alertType,
+      alertDetails: alertDetails ? alertDetails : "",
     });
-
-    setTimeout(() => {
-      this.setState({ showAlert: false });
-    }, 3000);
   };
 
   hideAlert = () => {
@@ -52,7 +55,7 @@ class App extends Component<{}, State> {
   };
 
   render() {
-    const { alertMessage, alertType, showAlert } = this.state;
+    const { alertMessage, alertType, showAlert, alertDetails } = this.state;
 
     return (
       <div className="app">
@@ -73,7 +76,14 @@ class App extends Component<{}, State> {
             </div>
           </BrowserRouter>
 
-          {showAlert && <Alert message={alertMessage} type={alertType} />}
+          {showAlert && (
+            <Alert
+              message={alertMessage}
+              type={alertType}
+              details={alertDetails}
+              hideAlert={this.hideAlert}
+            />
+          )}
         </div>
       </div>
     );

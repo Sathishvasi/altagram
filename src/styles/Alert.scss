@@ -21,6 +21,37 @@
   &.success {
     background-color: #b6f7a9;
   }
+
+  &__buttons {
+    margin-top: 12px;
+
+    &-button {
+      cursor: pointer;
+      background: none;
+      outline: none;
+      border: none;
+      text-decoration: underline;
+      color: #323232;
+      font-family: "Quicksand", sans-serif;
+    }
+  }
+
+  &__details {
+    &-box {
+      margin-top: 10px;
+      width: 550px;
+      height: 160px;
+      outline: none;
+      font-family: "Quicksand", sans-serif;
+      background: rgba(0, 0, 0, 0.1);
+      border: none;
+      resize: none;
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 12px;
+      line-height: 20px;
+    }
+  }
 }
 
 @keyframes fadein {

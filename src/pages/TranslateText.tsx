@@ -12,7 +12,11 @@ import FormValidator from "utils/Validator";
 import { getEnv } from "services/AuthService";
 
 type Props = {
-  showAlert: (alertMessage: string, alertType: "success" | "error") => void;
+  showAlert: (
+    alertMessage: string,
+    alertType: "success" | "error",
+    alertDetails?: string
+  ) => void;
 };
 
 type State = {
@@ -96,10 +100,33 @@ class TranslateText extends React.Component<Props, State> {
         })
         .catch((error: any) => {
           console.log(error);
-          this.props.showAlert(
-            "Something went wrong. Please try again.",
-            "error"
-          );
+
+          let message = "";
+
+          if (error.response) {
+            if (error.response.status === 401) {
+              message = "MT Tool security token expired, please reload.";
+            } else if (error.response.status >= 500) {
+              message = "Something went wrong (ref: server)";
+            } else {
+              message = "Something went wrong";
+            }
+
+            this.props.showAlert(
+              message,
+              "error",
+              JSON.stringify({
+                error_code: error.response.status,
+                message: error.message,
+                data: error.response ? error.response.data : "",
+              })
+            );
+          } else {
+            this.props.showAlert(
+              "Something went wrong. Please try again.",
+              "error"
+            );
+          }
 
           this.setState({ isLoading: false });
         });
