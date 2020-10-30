@@ -107,7 +107,14 @@ class TranslateText extends React.Component<Props, State> {
   };
 
   render() {
-    const { submitted } = this.state;
+    const {
+      submitted,
+      sourceLanguage,
+      targetLanguage,
+      inputText,
+      outputText,
+      isLoading,
+    } = this.state;
 
     let validation = submitted
       ? this.validator.validate(this.state)
@@ -116,8 +123,8 @@ class TranslateText extends React.Component<Props, State> {
     return (
       <div>
         <LanguageSelector
-          sourceLanguage={this.state.sourceLanguage}
-          targetLanguage={this.state.targetLanguage}
+          sourceLanguage={sourceLanguage}
+          targetLanguage={targetLanguage}
           sourceLanguageError={
             validation.sourceLanguage.isInvalid
               ? validation.sourceLanguage.message
@@ -134,7 +141,7 @@ class TranslateText extends React.Component<Props, State> {
           <div className="column">
             <Textarea
               label="Type in text here*"
-              value={this.state.inputText}
+              value={inputText}
               onChange={(e) => this.setState({ inputText: e.target.value })}
               fullWidth
               name="inputText"
@@ -150,7 +157,7 @@ class TranslateText extends React.Component<Props, State> {
           <div className="column">
             <Textarea
               label="Translated text"
-              value={this.state.outputText}
+              value={outputText}
               onChange={(e) => this.setState({ outputText: e.target.value })}
               fullWidth
               readOnly
@@ -161,9 +168,9 @@ class TranslateText extends React.Component<Props, State> {
         <Button
           className="submit-button"
           onClick={this.handleTranslate}
-          disabled={this.state.isLoading ? true : false}
+          disabled={isLoading ? true : false}
         >
-          {this.state.isLoading ? "Translating" : "Translate"}
+          {isLoading ? "Translating" : "Translate"}
         </Button>
       </div>
     );

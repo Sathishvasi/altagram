@@ -161,7 +161,17 @@ class TranslateFile extends React.Component<Props, State> {
   };
 
   render() {
-    const { submitted } = this.state;
+    const {
+      submitted,
+      sourceLanguage,
+      previewMode,
+      targetLanguage,
+      file,
+      isLoading,
+      extension,
+      translatedFile,
+      showTranslateButton,
+    } = this.state;
 
     let validation = submitted
       ? this.validator.validate(this.state)
@@ -169,11 +179,11 @@ class TranslateFile extends React.Component<Props, State> {
 
     return (
       <div>
-        {!this.state.previewMode ? (
+        {!previewMode ? (
           <>
             <LanguageSelector
-              sourceLanguage={this.state.sourceLanguage}
-              targetLanguage={this.state.targetLanguage}
+              sourceLanguage={sourceLanguage}
+              targetLanguage={targetLanguage}
               sourceLanguageError={
                 validation.sourceLanguage.isInvalid
                   ? validation.sourceLanguage.message
@@ -187,8 +197,8 @@ class TranslateFile extends React.Component<Props, State> {
               onChange={this.handleLanguageChange}
             />
             <Dropbox
-              value={this.state.file}
-              disabled={this.state.isLoading}
+              value={file}
+              disabled={isLoading}
               hasError={validation.file.isInvalid ? true : false}
               errorMessage={
                 validation.file.isInvalid ? validation.file.message : ""
@@ -201,23 +211,23 @@ class TranslateFile extends React.Component<Props, State> {
         ) : (
           <div className="preview-container">
             <ReactExcelRenderer
-              fileType={this.state.extension}
-              filePath={this.state.translatedFile}
+              fileType={extension}
+              filePath={translatedFile}
             />
           </div>
         )}
         <div className="btn-wrapper">
-          {this.state.showTranslateButton ? (
+          {showTranslateButton ? (
             <Button
               className="submit-button"
               onClick={this.handleTranslate}
-              disabled={this.state.isLoading ? true : false}
+              disabled={isLoading ? true : false}
             >
-              {this.state.isLoading ? "Translating" : "Translate"}
+              {isLoading ? "Translating" : "Translate"}
             </Button>
           ) : (
             <div>
-              {!this.state.previewMode ? (
+              {!previewMode ? (
                 <Button
                   type="secondary"
                   onClick={() => this.handlePreview(true)}
