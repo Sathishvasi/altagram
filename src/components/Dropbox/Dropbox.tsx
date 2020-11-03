@@ -57,7 +57,7 @@ class Dropbox extends Component<Props, State> {
 
     if (file.name) {
       this.setState({
-        modifiedDate: this.getFormattedDate(file.lastModifiedDate),
+        modifiedDate: this.getFormattedDate(new Date(file.lastModified)),
       });
     }
   }
@@ -133,7 +133,7 @@ class Dropbox extends Component<Props, State> {
   readFile = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const fileInfo = event.target.files[0];
-      const modifiedDate = this.getFormattedDate(fileInfo.lastModifiedDate);
+      const modifiedDate = this.getFormattedDate(new Date(fileInfo.lastModified));
 
       this.setState({
         fileName: fileInfo.name,
