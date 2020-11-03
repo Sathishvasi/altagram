@@ -55,7 +55,7 @@ class Dropbox extends Component<Props, State> {
   componentDidMount() {
     const { file } = this.state;
 
-    if (file) {
+    if (file.name) {
       this.setState({
         modifiedDate: this.getFormattedDate(file.lastModifiedDate),
       });
