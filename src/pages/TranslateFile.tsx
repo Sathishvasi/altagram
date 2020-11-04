@@ -71,6 +71,14 @@ class TranslateFile extends React.Component<Props, State> {
     submitted: false,
   };
 
+  componentWillReceiveProps = () => {
+    const { previewMode } = this.state;
+
+    if (previewMode) {
+      this.makeReadOnly();
+    }
+  };
+
   handleLanguageChange = (language: string, type: string) => {
     if (type === "sourceLanguage") {
       this.setState({ sourceLanguage: language });
@@ -179,7 +187,7 @@ class TranslateFile extends React.Component<Props, State> {
     }
   };
 
-  handleClick = () => {
+  handleDownload = () => {
     const { responseFile, file } = this.state;
     const url = window.URL.createObjectURL(responseFile);
     const link = document.createElement("a");
@@ -192,6 +200,21 @@ class TranslateFile extends React.Component<Props, State> {
 
   handlePreview = (previewMode: Boolean) => {
     this.setState({ previewMode: previewMode });
+    // this.makeReadOnly();
+  };
+
+  makeReadOnly = () => {
+    const container = document.getElementsByClassName("preview-container")[0];
+    const td = document.getElementsByTagName("td");
+    const th = container.getElementsByTagName("th");
+
+    for (let item of td) {
+      item.setAttribute("contenteditable", "false");
+    }
+
+    for (let item of th) {
+      item.setAttribute("contenteditable", "false");
+    }
   };
 
   render() {
@@ -248,6 +271,8 @@ class TranslateFile extends React.Component<Props, State> {
               initialData={translatedFile}
               activeSheetClassName="active-sheet"
               reactExcelClassName="react-excel"
+              contentEditable={false}
+              readOnly
             />
           </div>
         )}
@@ -277,7 +302,7 @@ class TranslateFile extends React.Component<Props, State> {
                   Exit Preview
                 </Button>
               )}
-              <Button onClick={this.handleClick}>Download</Button>
+              <Button onClick={this.handleDownload}>Download</Button>
             </div>
           )}
         </div>
