@@ -136,6 +136,7 @@ class TranslateFile extends React.Component<Props, State> {
             responseFile: blob,
             translatedFile: url,
             extension: extension,
+            submitted: false,
           });
         })
         .catch((error: any) => {
