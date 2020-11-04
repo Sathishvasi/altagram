@@ -56,6 +56,31 @@ $padding-default: 25px;
   height: 330px;
   font-size: 12px;
   font-family: sans-serif;
+  background-color: #fff;
+  overflow-y: scroll;
+
+  .react-excel {
+    &>div {
+      border-bottom: 1px solid #acacac;
+      padding: 5px;
+      background: #f1f1f1;
+    }
+
+    table {
+      border-collapse: collapse !important;
+
+      tr {
+        border-bottom: 1px solid #acacac;
+
+        td,
+        th {
+          border-right: 1px solid #acacac;
+          padding: 5px
+        }
+      }
+    }
+
+  }
 
   .pg-viewer-wrapper {
     overflow-y: hidden;

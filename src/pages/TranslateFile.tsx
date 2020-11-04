@@ -11,7 +11,7 @@ import FormValidator from "utils/Validator";
 import API from "utils/API";
 import { getEnv } from "services/AuthService";
 
-const ReactExcelRenderer = require("react-file-viewer");
+const { readFile, ReactExcel } = require("@ramonak/react-excel");
 
 type Props = {
   showAlert: (
@@ -128,16 +128,21 @@ class TranslateFile extends React.Component<Props, State> {
             type:
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           });
+
           let url = window.URL.createObjectURL(blob);
 
-          this.setState({
-            isLoading: false,
-            showTranslateButton: false,
-            responseFile: blob,
-            translatedFile: url,
-            extension: extension,
-            submitted: false,
-          });
+          readFile(blob)
+            .then((readedData: any) =>
+              this.setState({
+                isLoading: false,
+                showTranslateButton: false,
+                responseFile: blob,
+                translatedFile: readedData,
+                extension: extension,
+                submitted: false,
+              })
+            )
+            .catch((error: any) => console.error(error));
         })
         .catch((error: any) => {
           console.log(error);
@@ -239,9 +244,10 @@ class TranslateFile extends React.Component<Props, State> {
           </>
         ) : (
           <div className="preview-container">
-            <ReactExcelRenderer
-              fileType={extension}
-              filePath={translatedFile}
+            <ReactExcel
+              initialData={translatedFile}
+              activeSheetClassName="active-sheet"
+              reactExcelClassName="react-excel"
             />
           </div>
         )}
