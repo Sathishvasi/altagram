@@ -8,9 +8,10 @@ import Label from "components/Label/Label";
 import uploadIcon from "assets/icon-add-file.png";
 import trashIcon from "assets/icon-delete.png";
 import "styles/Dropbox.scss";
+import { read } from "fs";
 
 interface State {
-  showEnterMessage: Boolean;
+  showFileUpload: Boolean;
   uploadFailed: Boolean;
   uploading: Boolean;
   fileName?: string;
@@ -18,7 +19,7 @@ interface State {
   snackbarMsg: string;
   snackbarType: string;
   modifiedDate: string;
-  onDrag: Boolean;
+  showEnterMessage: Boolean;
   visibility: string;
   disabled: Boolean;
   hasError?: Boolean;
@@ -37,14 +38,14 @@ interface Props {
 
 class Dropbox extends Component<Props, State> {
   state: State = {
-    showEnterMessage: this.props.value.name ? false : true,
+    showFileUpload: this.props.value.name ? false : true,
     uploadFailed: false,
     uploading: false,
     fileName: this.props.value.name,
     snackbarMsg: "",
     snackbarType: "",
     modifiedDate: "",
-    onDrag: false,
+    showEnterMessage: false,
     disabled: this.props.disabled,
     visibility: "",
     file: this.props.value,
@@ -85,70 +86,69 @@ class Dropbox extends Component<Props, State> {
   };
 
   handleDragEnter = (e: any) => {
-    this.setState({ showEnterMessage: false, onDrag: true });
+    this.setState({ showFileUpload: false, showEnterMessage: true });
     e.preventDefault();
     e.stopPropagation();
   };
 
   handleDragLeave = (e: any) => {
     this.setState({
-      showEnterMessage: true,
-      onDrag: false,
+      showFileUpload: true,
+      showEnterMessage: false,
     });
     e.preventDefault();
     e.stopPropagation();
   };
 
   handleDragOver = (e: any) => {
-    this.setState({ showEnterMessage: false, onDrag: true });
+    this.setState({ showFileUpload: false, showEnterMessage: true });
     e.preventDefault();
     e.stopPropagation();
   };
 
   handleDrop = (e: any) => {
-    let fileName = e.dataTransfer && e.dataTransfer.files[0].name;
-    let extension = fileName.split(".")[1];
-
-    if (extension === "csv" || extension === "xls" || extension === "xlsx") {
-      // Condition to show the CSV file info
+    if (e.dataTransfer.files) {
       this.setState({
+        showFileUpload: false,
         showEnterMessage: false,
-        fileName: fileName,
-        onDrag: false,
-      });
-    } else {
-      // Condition to show the alert for Non-CSV file
-      this.setState({
-        showEnterMessage: true,
-        onDrag: false,
       });
 
-      this.props.showAlert("Supported file type: csv", "error");
+      this.readFile(e.dataTransfer.files[0]);
     }
 
     e.preventDefault();
     e.stopPropagation();
   };
 
-  readFile = (event: any) => {
-    if (event.target.files && event.target.files[0]) {
-      const fileInfo = event.target.files[0];
-      const modifiedDate = this.getFormattedDate(new Date(fileInfo.lastModified));
+  onChange = (event: any) => {
+    if (event.target.files) this.readFile(event.target.files[0]);
+  };
 
+  readFile = (fileInfo: any) => {
+    const modifiedDate = this.getFormattedDate(new Date(fileInfo.lastModified));
+    const fileName = fileInfo.name;
+    const extension = fileName.split(".")[1];
+
+    if (extension === "csv" || extension === "xls" || extension === "xlsx") {
       this.setState({
         fileName: fileInfo.name,
         modifiedDate: modifiedDate,
-        showEnterMessage: false,
+        showFileUpload: false,
         file: fileInfo,
       });
 
       this.props.onChange(fileInfo);
+    } else {
+      this.setState({
+        showFileUpload: true,
+      });
+      this.props.showAlert("Supported file types: xls/xlsx/csv", "error");
     }
   };
 
   handleDeleteFile = () => {
     this.setState({
-      showEnterMessage: true,
+      showFileUpload: true,
       file: new File([], ""),
       fileName: "",
     });
@@ -157,7 +157,7 @@ class Dropbox extends Component<Props, State> {
   };
 
   translateFile = () => {
-    if (!this.state.showEnterMessage) {
+    if (!this.state.showFileUpload) {
       this.props.showAlert("Translation completed successfully", "success");
     } else {
       this.props.showAlert("Please select a file before Translate", "error");
@@ -168,8 +168,8 @@ class Dropbox extends Component<Props, State> {
     const {
       uploadFailed,
       uploading,
-      onDrag,
       showEnterMessage,
+      showFileUpload,
       fileName,
       modifiedDate,
       hasError,
@@ -200,17 +200,21 @@ class Dropbox extends Component<Props, State> {
             name="fileinput"
             className="fileinput"
             accept=".csv, .xls, .xlsx"
-            onChange={(e: any) => this.readFile(e)}
+            onChange={(e: any) => this.onChange(e)}
             onClick={(e: any) => {
               e.target.value = null;
             }}
           />
 
-          <div className={onDrag ? "ondrag-wrapper active" : "ondrag-wrapper"}>
+          <div
+            className={
+              showEnterMessage ? "ondrag-wrapper active" : "ondrag-wrapper"
+            }
+          >
             <p>Drop your file</p>
           </div>
 
-          {showEnterMessage ? (
+          {showFileUpload ? (
             <label htmlFor="fileinput">
               <div className="upload-container">
                 <img src={uploadIcon} alt="Upload icon" />
@@ -219,7 +223,7 @@ class Dropbox extends Component<Props, State> {
               </div>
             </label>
           ) : (
-            !onDrag && (
+            fileName && (
               <div className="file-info">
                 <div>
                   <p className="file-info__name">{fileName}</p>
