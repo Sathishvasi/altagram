@@ -1,0 +1,22 @@
+.language {
+  margin: 2px 0 24px;
+
+  &__dropdown:not(:last-of-type) {
+    margin-right: 80px;
+  }
+
+  &__view {
+    &-text {
+      font-size: 14px;
+      margin-top: 16px;
+      font-weight: 500;
+      font-family: "Quicksand", sans-serif;
+      color: #f4f8f9;
+      margin-bottom: 5px !important;
+
+      .language-text {
+        color: #adb5bd;
+      }
+    }
+  }
+}

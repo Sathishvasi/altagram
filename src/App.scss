@@ -1,0 +1,88 @@
+$padding-default: 25px;
+
+.app {
+  min-height: 100vh;
+  background-color: #212121;
+  padding: 5%;
+
+  &__container {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding-top: $padding-default;
+    background: #121212;
+    border-radius: 5px;
+
+    .title {
+      margin-top: 0;
+      margin-left: $padding-default;
+      padding: 0;
+      font-size: 24px;
+      font-weight: bold;
+      font-family: "Quicksand", sans-serif;
+      color: #f4f8f9;
+      margin-bottom: 35px;
+    }
+
+    .tabview {
+      padding: $padding-default;
+    }
+  }
+}
+
+.text-inputs {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+
+  .column {
+    width: 48%;
+    display: inline-block;
+  }
+}
+
+.submit-button {
+  margin-left: auto;
+  display: block;
+}
+
+.btn-wrapper {
+  text-align: right;
+  padding-top: 25px;
+}
+
+.preview-container {
+  height: 330px;
+  font-size: 12px;
+  font-family: sans-serif;
+  background-color: #fff;
+  overflow-y: scroll;
+
+  .react-excel {
+    &>div {
+      border-bottom: 1px solid #acacac;
+      padding: 5px;
+      background: #f1f1f1;
+    }
+
+    table {
+      border-collapse: collapse !important;
+
+      tr {
+        border-bottom: 1px solid #acacac;
+
+        td,
+        th {
+          border-right: 1px solid #acacac;
+          padding: 5px;
+        }
+      }
+    }
+
+  }
+
+  .pg-viewer-wrapper {
+    overflow-y: hidden;
+  }
+}
