@@ -7,9 +7,11 @@ import React from "react";
 import API from "utils/API";
 import Button from "components/Button/Button";
 import Textarea from "components/Textarea/Textarea";
+import ProgressBar from "components/ProgressBar/ProgressBar";
 import LanguageSelector from "components/LanguageSelector/LanguageSelector";
 import FormValidator from "utils/Validator";
 import { getEnv } from "services/AuthService";
+import { isLabeledStatement } from "typescript";
 
 type Props = {
   showAlert: (
@@ -26,6 +28,7 @@ type State = {
   targetLanguage: string;
   validation: any;
   isLoading: boolean;
+  progress: number;
   submitted: boolean;
 };
 
@@ -58,6 +61,7 @@ class TranslateText extends React.Component<Props, State> {
     targetLanguage: "",
     validation: this.validator.valid(),
     isLoading: false,
+    progress: 0,
     submitted: false,
   };
 
@@ -76,7 +80,7 @@ class TranslateText extends React.Component<Props, State> {
     this.setState({ submitted: true });
 
     if (validation.isValid) {
-      this.setState({ validation: validation, isLoading: true });
+      this.setState({ validation: validation, isLoading: true, progress: 0 });
 
       API.post(
         "/text-to-text",
@@ -89,6 +93,10 @@ class TranslateText extends React.Component<Props, State> {
         },
         {
           responseType: "json",
+          onUploadProgress: (e) => {
+            const progress = Math.round((e.loaded * 100) / e.total);
+            this.setState({ progress: progress > 90 ? 85 : progress });
+          },
         }
       )
         .then((response: any) => {
@@ -97,6 +105,7 @@ class TranslateText extends React.Component<Props, State> {
           this.setState({
             outputText: response.data.translated,
             isLoading: false,
+            progress: 100,
           });
         })
         .catch((error: any) => {
@@ -142,6 +151,7 @@ class TranslateText extends React.Component<Props, State> {
       inputText,
       outputText,
       isLoading,
+      progress,
     } = this.state;
 
     let validation = submitted
@@ -192,14 +202,17 @@ class TranslateText extends React.Component<Props, State> {
             ></Textarea>
           </div>
         </div>
-
-        <Button
-          className="submit-button"
-          onClick={this.handleTranslate}
-          disabled={isLoading ? true : false}
-        >
-          {isLoading ? "Translating" : "Translate"}
-        </Button>
+        {isLoading ? (
+          <ProgressBar value={progress}></ProgressBar>
+        ) : (
+          <Button
+            className="submit-button"
+            onClick={this.handleTranslate}
+            disabled={isLoading ? true : false}
+          >
+            Translate
+          </Button>
+        )}
       </div>
     );
   }

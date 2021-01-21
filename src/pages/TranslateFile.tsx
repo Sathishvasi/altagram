@@ -7,6 +7,7 @@ import React from "react";
 import Dropbox from "components/Dropbox/Dropbox";
 import LanguageSelector from "components/LanguageSelector/LanguageSelector";
 import Button from "components/Button/Button";
+import ProgressBar from "components/ProgressBar/ProgressBar";
 import FormValidator from "utils/Validator";
 import API from "utils/API";
 import { getEnv } from "services/AuthService";
@@ -32,6 +33,7 @@ type State = {
   showTranslateButton: Boolean;
   validation: any;
   isLoading: boolean;
+  progress: number;
   responseFile: Blob;
   translatedFile: string;
   translatedFileObj: IDocument[];
@@ -69,6 +71,7 @@ class TranslateFile extends React.Component<Props, State> {
     showTranslateButton: true,
     validation: this.validator.valid(),
     isLoading: false,
+    progress: 0,
     responseFile: new Blob(),
     translatedFile: "",
     translatedFileObj: [{ uri: "" }],
@@ -136,7 +139,7 @@ class TranslateFile extends React.Component<Props, State> {
     }
 
     if (validation.isValid) {
-      this.setState({ validation: validation, isLoading: true });
+      this.setState({ validation: validation, isLoading: true, progress: 0 });
       const formData = new FormData();
       formData.append("file", file);
       formData.append("sourceLanguage", sourceLanguage);
@@ -146,6 +149,10 @@ class TranslateFile extends React.Component<Props, State> {
 
       API.post("/file-to-file", formData, {
         responseType: "blob",
+        onUploadProgress: (e) => {
+          const progress = Math.round((e.loaded * 100) / e.total);
+          this.setState({ progress: progress > 90 ? 85 : progress });
+        },
       })
         .then((response: any) => {
           console.log(response);
@@ -172,6 +179,7 @@ class TranslateFile extends React.Component<Props, State> {
                 translatedFileObj: [{ uri: url }],
                 extension: extension,
                 submitted: false,
+                progress: 100,
               });
             })
             .catch((error: any) => console.error(error));
@@ -249,6 +257,7 @@ class TranslateFile extends React.Component<Props, State> {
       targetLanguage,
       file,
       isLoading,
+      progress,
       extension,
       translatedFile,
       translatedFileObj,
@@ -313,36 +322,40 @@ class TranslateFile extends React.Component<Props, State> {
             {/* <ReactJson src={translatedFile} theme={"summerfruit:inverted"} /> */}
           </div>
         )}
-        <div className="btn-wrapper">
-          {showTranslateButton ? (
-            <Button
-              className="submit-button"
-              onClick={this.handleTranslate}
-              disabled={isLoading ? true : false}
-            >
-              {isLoading ? "Translating" : "Translate"}
-            </Button>
-          ) : (
-            <div>
-              {!previewMode ? (
-                <Button
-                  type="secondary"
-                  onClick={() => this.handlePreview(true)}
-                >
-                  Preview
-                </Button>
-              ) : (
-                <Button
-                  type="secondary"
-                  onClick={() => this.handlePreview(false)}
-                >
-                  Exit Preview
-                </Button>
-              )}
-              <Button onClick={this.handleDownload}>Download</Button>
-            </div>
-          )}
-        </div>
+        {isLoading ? (
+          <ProgressBar value={progress}></ProgressBar>
+        ) : (
+          <div className="btn-wrapper">
+            {showTranslateButton ? (
+              <Button
+                className="submit-button"
+                onClick={this.handleTranslate}
+                disabled={isLoading ? true : false}
+              >
+                Translate
+              </Button>
+            ) : (
+              <div>
+                {!previewMode ? (
+                  <Button
+                    type="secondary"
+                    onClick={() => this.handlePreview(true)}
+                  >
+                    Preview
+                  </Button>
+                ) : (
+                  <Button
+                    type="secondary"
+                    onClick={() => this.handlePreview(false)}
+                  >
+                    Exit Preview
+                  </Button>
+                )}
+                <Button onClick={this.handleDownload}>Download</Button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
