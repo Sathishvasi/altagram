@@ -60,7 +60,7 @@ $padding-default: 25px;
   overflow-y: scroll;
 
   .react-excel {
-    &>div {
+    & > div {
       border-bottom: 1px solid #acacac;
       padding: 5px;
       background: #f1f1f1;
@@ -79,10 +79,13 @@ $padding-default: 25px;
         }
       }
     }
-
   }
 
   .pg-viewer-wrapper {
     overflow-y: hidden;
   }
+}
+
+.progressbar {
+  margin: 50px auto 30px;
 }
