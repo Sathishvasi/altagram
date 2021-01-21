@@ -84,6 +84,7 @@ class TranslateText extends React.Component<Props, State> {
           data: inputText,
           sourceLanguage: sourceLanguage,
           targetLanguage: targetLanguage,
+          fileExt: 0,
           env: getEnv(),
         },
         {

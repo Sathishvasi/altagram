@@ -129,10 +129,18 @@ class Dropbox extends Component<Props, State> {
     const fileName = fileInfo.name;
     const extension = fileName.split(".")[1];
 
-    if (extension === "csv" || extension === "xls" || extension === "xlsx") {
+    if (
+      extension === "csv" ||
+      extension === "xls" ||
+      extension === "xlsx" ||
+      extension === "json" ||
+      extension === "txt" ||
+      extension === "pdf"
+    ) {
       this.setState({
         fileName: fileInfo.name,
         modifiedDate: modifiedDate,
+
         showFileUpload: false,
         file: fileInfo,
       });
