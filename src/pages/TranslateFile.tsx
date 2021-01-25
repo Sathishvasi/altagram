@@ -13,7 +13,7 @@ import API from "utils/API";
 import { getEnv } from "services/AuthService";
 import DocViewer, { DocViewerRenderers, IDocument } from "react-doc-viewer";
 import ReactJson from "react-json-view";
-import act from "assets/activities.json";
+// import act from "assets/activities.json";
 
 const { readFile, ReactExcel } = require("@ramonak/react-excel");
 
