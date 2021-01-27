@@ -35,10 +35,11 @@ type State = {
   isLoading: boolean;
   progress: number;
   responseFile: Blob;
-  translatedFile: string;
+  translatedFile: object;
   translatedFileObj: IDocument[];
   previewMode: Boolean;
   submitted: Boolean;
+  url: string;
 };
 
 class TranslateFile extends React.Component<Props, State> {
@@ -73,10 +74,11 @@ class TranslateFile extends React.Component<Props, State> {
     isLoading: false,
     progress: 0,
     responseFile: new Blob(),
-    translatedFile: "",
+    translatedFile: {},
     translatedFileObj: [{ uri: "" }],
     previewMode: false,
     submitted: false,
+    url: "",
   };
 
   componentWillReceiveProps = () => {
@@ -106,7 +108,7 @@ class TranslateFile extends React.Component<Props, State> {
       file: new File([], ""),
       previewMode: false,
       showTranslateButton: true,
-      translatedFile: "",
+      translatedFile: {},
     });
   };
 
@@ -180,6 +182,7 @@ class TranslateFile extends React.Component<Props, State> {
                 extension: extension,
                 submitted: false,
                 progress: 100,
+                url: url,
               });
             })
             .catch((error: any) => console.error(error));
@@ -262,6 +265,7 @@ class TranslateFile extends React.Component<Props, State> {
       translatedFile,
       translatedFileObj,
       showTranslateButton,
+      url,
     } = this.state;
 
     let validation = submitted
@@ -301,25 +305,31 @@ class TranslateFile extends React.Component<Props, State> {
           </>
         ) : (
           <div className="preview-container">
-            {/* <ReactExcel
-              initialData={translatedFile}
-              activeSheetClassName="active-sheet"
-              reactExcelClassName="react-excel"
-              contentEditable={false}
-              readOnly
-            /> */}
-            <DocViewer
-              pluginRenderers={DocViewerRenderers}
-              documents={translatedFileObj}
-              config={{
-                header: {
-                  disableHeader: true,
-                  disableFileName: false,
-                  retainURLParams: false,
-                },
-              }}
-            />
-            {/* <ReactJson src={translatedFile} theme={"summerfruit:inverted"} /> */}
+            {extension === "xlsx" ||
+            extension === "xls" ||
+            extension === "csv" ? (
+              <ReactExcel
+                initialData={translatedFile}
+                activeSheetClassName="active-sheet"
+                reactExcelClassName="react-excel"
+                contentEditable={false}
+                readOnly
+              />
+            ) : extension === "json" ? (
+              <ReactJson src={translatedFile} theme={"summerfruit:inverted"} />
+            ) : (
+              <DocViewer
+                pluginRenderers={DocViewerRenderers}
+                documents={translatedFileObj}
+                config={{
+                  header: {
+                    disableHeader: true,
+                    disableFileName: false,
+                    retainURLParams: false,
+                  },
+                }}
+              />
+            )}
           </div>
         )}
         {isLoading ? (
