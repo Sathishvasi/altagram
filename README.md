@@ -3,7 +3,6 @@
 To change the base url before deployment, replace the following entries with the new base url:<br />
 
 - `homepage` entry in `package.json`<br />
-- `basename` attribute of `<BrowserRouter>` component in the `render()` method of `App.tsx`
 
 ## Available Scripts
 
