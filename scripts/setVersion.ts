@@ -11,4 +11,9 @@ console.log('...done! :)')
 
 function setVersion(version: string) {
     console.log('setVersion', version)
+
+    const fs = require('fs')
+    let content = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+    content.version = version
+    fs.writeFileSync('package.json', JSON.stringify(content, null, 2))
 }
