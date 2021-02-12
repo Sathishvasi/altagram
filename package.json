@@ -1,7 +1,7 @@
 {
   "name": "altagram",
-  "version": "0.1.0",
-  "homepage": "/altagram/",
+  "version": "0.0.0",
+  "homepage": "/mt-frontend/0.0.0/",
   "private": true,
   "dependencies": {
     "@ramonak/react-excel": "^1.0.1",
