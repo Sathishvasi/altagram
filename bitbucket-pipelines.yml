@@ -29,4 +29,4 @@ pipelines:
           name: Deploy release
           script:
             - export RELEASE_ID="${BITBUCKET_TAG:8}"
-            - npm run deploy 161.35.216.84 $RELEASE_ID
+            - sh scripts/delivery/deploy.sh 161.35.216.84 $RELEASE_ID
