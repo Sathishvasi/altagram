@@ -31,7 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "set-version": "ts-node ./scripts/setVersion.ts"
+    "set-package-json": "ts-node ./scripts/setPackageJson.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
