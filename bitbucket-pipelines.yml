@@ -1,0 +1,39 @@
+#  Template NodeJS build
+
+#  This template allows you to validate your NodeJS code.
+#  The workflow allows running tests and code linting on the default branch.
+
+image: node:10.15.3
+
+pipelines:
+  default:
+    - step:
+        name: Test
+        caches:
+          - node
+        script:
+          - npm install
+          - npm test
+  tags:
+    release/*:
+      - step:
+          name: Test
+          caches:
+            - node
+          script:
+            - npm install
+            - npm test
+      - step:
+          name: Build release
+          caches:
+            - node
+          script:
+            - export RELEASE_ID="${BITBUCKET_TAG:8}"
+            - sh scripts/delivery/build.sh $RELEASE_ID
+          artifacts:
+            - build/**
+      - step:
+          name: Deploy release
+          script:
+            - export RELEASE_ID="${BITBUCKET_TAG:8}"
+            - sh scripts/delivery/deploy.sh 161.35.216.84 $RELEASE_ID

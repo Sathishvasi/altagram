@@ -60,7 +60,7 @@ class App extends Component<{}, State> {
     return (
       <div className="app">
         <div className="app__container">
-          <BrowserRouter basename="/altagram/">
+          <BrowserRouter basename={process.env.PUBLIC_URL + '/'}>
             <h2 className="title">Translate</h2>
             <Navbar />
             <div className="tabview">
