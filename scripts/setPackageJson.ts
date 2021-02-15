@@ -3,7 +3,7 @@ console.log('Running script...')
 const key = process.argv[2]
 const value = process.argv[3]
 if (!key || value == null) {
-    console.error("ERROR', 'Please provide key and value arguments, such as 'version' '1.2.3'")
+    console.error('ERROR', "Please provide key and value arguments, such as 'version' '1.2.3'")
     console.log('...failed! :(')
     process.exit(1)
 }
