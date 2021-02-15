@@ -1,0 +1,24 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: node:10.15.3
+
+pipelines:
+  tags:
+    release/*:
+      - step:
+          name: Build release
+          caches:
+            - node
+          script:
+            - export RELEASE_ID="${BITBUCKET_TAG:8}"
+            - sh scripts/delivery/build.sh $RELEASE_ID
+          artifacts:
+            - build/**
+      - step:
+          name: Deploy release
+          script:
+            - export RELEASE_ID="${BITBUCKET_TAG:8}"
+            - npm run deploy 161.35.216.84 $RELEASE_ID
