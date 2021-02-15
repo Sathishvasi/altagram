@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 /*
  *  Alert component to show alerts throughout the application
  *
