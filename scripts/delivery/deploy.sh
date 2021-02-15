@@ -14,3 +14,4 @@ ls build
 ssh root@$SERVER_IP 'mkdir /var/www/html/mt-frontend/ || true'
 ssh root@$SERVER_IP 'rm -rf /var/www/html/mt-frontend/'$RELEASE_ID
 scp -r build/ root@$SERVER_IP':/var/www/html/mt-frontend/'$RELEASE_ID
+scp scripts/delivery/server/.htaccess root@$SERVER_IP':/var/www/html/mt-frontend/'$RELEASE_ID
