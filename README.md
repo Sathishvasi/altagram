@@ -29,4 +29,4 @@ Your app is ready to be deployed!
 
 To produce a new release, you can tag a commit like release/VERSION and then push it. The version must be semver compatible, like 0.1.2, as in https://www.npmjs.com/package/semver
 
-
+It will be deployed to http://161.35.216.84/mt-frontend/VERSION
