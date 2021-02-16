@@ -128,11 +128,8 @@ class TranslateFile extends React.Component<Props, State> {
       file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length) ||
       file.name
     ).toLowerCase();
-    console.log(extension);
 
-    if (extension === "xls" || extension === "xslx") {
-      fileExt = 1;
-    } else if (extension === "txt") {
+    if (extension === "txt") {
       fileExt = 2;
     } else if (extension === "csv") {
       fileExt = 3;
@@ -157,8 +154,6 @@ class TranslateFile extends React.Component<Props, State> {
         },
       })
         .then((response: any) => {
-          console.log(response);
-
           this.props.showAlert("Translation completed successfully", "success");
           let blob = new Blob([response.data], {
             type:
@@ -169,8 +164,6 @@ class TranslateFile extends React.Component<Props, State> {
 
           readFile(blob)
             .then((readedData: any) => {
-              console.log(readedData);
-
               this.setState({
                 isLoading: false,
                 showTranslateButton: false,
