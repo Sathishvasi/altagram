@@ -3,7 +3,6 @@
 To change the base url before deployment, replace the following entries with the new base url:<br />
 
 - `homepage` entry in `package.json`<br />
-- `basename` attribute of `<BrowserRouter>` component in the `render()` method of `App.tsx`
 
 ## Available Scripts
 
@@ -24,3 +23,10 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
+
+
+## Deployment
+
+To produce a new release, you can tag a commit like release/VERSION and then push it. The version must be semver compatible, like 0.1.2, as in https://www.npmjs.com/package/semver
+
+It will be deployed to http://161.35.216.84/mt-frontend/VERSION

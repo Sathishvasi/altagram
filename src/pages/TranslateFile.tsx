@@ -164,10 +164,8 @@ class TranslateFile extends React.Component<Props, State> {
             type:
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           });
+
           let url = window.URL.createObjectURL(blob);
-          let file1 = new File([blob], file.name);
-          let uri = URL.createObjectURL(file1);
-          console.log(file1, uri);
 
           readFile(blob)
             .then((readedData: any) => {
@@ -178,7 +176,7 @@ class TranslateFile extends React.Component<Props, State> {
                 showTranslateButton: false,
                 responseFile: blob,
                 translatedFile: readedData,
-                translatedFileObj: [{ uri: url }],
+                // translatedFileObj: [{ uri: url }],
                 extension: extension,
                 submitted: false,
                 progress: 100,

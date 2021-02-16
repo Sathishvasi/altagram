@@ -8,7 +8,6 @@ import Label from "components/Label/Label";
 import uploadIcon from "assets/icon-add-file.png";
 import trashIcon from "assets/icon-delete.png";
 import "styles/Dropbox.scss";
-import { read } from "fs";
 
 interface State {
   showFileUpload: Boolean;
